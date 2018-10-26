@@ -388,14 +388,14 @@ char TwoChannelAdapter::read8CS1(int fd, long offset){
 int TwoChannelAdapter::write8CS0(int fd, long offset, char byte){
   int retval;
   retval = ioctl(fd,CS0_SET_ADDR,offset);
-  retval = write(fd,&byte,1);
+  retval = (int) write(fd,&byte,1);
   return retval;
 }
 
 int TwoChannelAdapter::write8CS1(int fd, long offset, char byte){
   int retval;
   retval = ioctl(fd,CS1_SET_ADDR,offset);
-  retval = write(fd,&byte,1);
+  retval = (int) write(fd,&byte,1);
   return retval;
 }
 

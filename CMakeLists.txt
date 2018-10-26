@@ -4,6 +4,7 @@ project(TwoChannelAdapter)
 set(CMAKE_CXX_STANDARD 14)
 
 include_directories("/usr/include/tango" "./")
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "~/DeviceServers/")
 
 add_executable(TwoChannelAdapter main.cpp
                                  TwoChannelAdapter.cpp
