@@ -49,13 +49,14 @@
 //  The following table gives the correspondence
 //  between command and method names.
 //
-//  Command name  |  Method name
+//  Command name   |  Method name
 //================================================================
-//  State         |  Inherited (no method)
-//  Status        |  Inherited (no method)
-//  MotionRight   |  motion_right
-//  MotionLeft    |  motion_left
-//  Stop          |  stop
+//  State          |  Inherited (no method)
+//  Status         |  Inherited (no method)
+//  MotionRight    |  motion_right
+//  MotionLeft     |  motion_left
+//  Stop           |  stop
+//  setCountSteps  |  set_count_steps
 //================================================================
 
 //================================================================
@@ -334,6 +335,23 @@ void TwoChannelAdapter::stop()
 	device_state = Tango::DevState::DISABLE;
 	
 	/*----- PROTECTED REGION END -----*/	//	TwoChannelAdapter::stop
+}
+//--------------------------------------------------------
+/**
+ *	Command setCountSteps related method
+ *	Description: 
+ *
+ *	@param argin 
+ */
+//--------------------------------------------------------
+void TwoChannelAdapter::set_count_steps(Tango::DevLong argin)
+{
+	DEBUG_STREAM << "TwoChannelAdapter::setCountSteps()  - " << device_name << endl;
+	/*----- PROTECTED REGION ID(TwoChannelAdapter::set_count_steps) ENABLED START -----*/
+	
+	//	Add your own code
+	
+	/*----- PROTECTED REGION END -----*/	//	TwoChannelAdapter::set_count_steps
 }
 //--------------------------------------------------------
 /**

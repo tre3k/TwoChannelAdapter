@@ -65,7 +65,8 @@ class TwoChannelAdapter : public TANGO_BASE_CLASS
 
 /*----- PROTECTED REGION ID(TwoChannelAdapter::Data Members) ENABLED START -----*/
 
-//	Add your own data members
+public:
+	int file_descriptor;
 
 /*----- PROTECTED REGION END -----*/	//	TwoChannelAdapter::Data Members
 
@@ -77,8 +78,6 @@ public:
 	Tango::DevUShort	num_of_motor;
 	//	general_device_name:	
 	string	general_device_name;
-
-	int file_descriptor;
 
 
 //	Constructors and destructors
@@ -176,6 +175,14 @@ public:
 	 */
 	virtual void stop();
 	virtual bool is_Stop_allowed(const CORBA::Any &any);
+	/**
+	 *	Command setCountSteps related method
+	 *	Description: 
+	 *
+	 *	@param argin 
+	 */
+	virtual void set_count_steps(Tango::DevLong argin);
+	virtual bool is_setCountSteps_allowed(const CORBA::Any &any);
 
 
 	//--------------------------------------------------------

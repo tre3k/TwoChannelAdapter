@@ -202,6 +202,26 @@ CORBA::Any *StopClass::execute(Tango::DeviceImpl *device, TANGO_UNUSED(const COR
 	return new CORBA::Any();
 }
 
+//--------------------------------------------------------
+/**
+ * method : 		setCountStepsClass::execute()
+ * description : 	method to trigger the execution of the command.
+ *
+ * @param	device	The device on which the command must be executed
+ * @param	in_any	The command input data
+ *
+ *	returns The command output data (packed in the Any object)
+ */
+//--------------------------------------------------------
+CORBA::Any *setCountStepsClass::execute(Tango::DeviceImpl *device, const CORBA::Any &in_any)
+{
+	cout2 << "setCountStepsClass::execute(): arrived" << endl;
+	Tango::DevLong argin;
+	extract(in_any, argin);
+	((static_cast<TwoChannelAdapter *>(device))->set_count_steps(argin));
+	return new CORBA::Any();
+}
+
 
 //===================================================================
 //	Properties management
@@ -489,6 +509,15 @@ void TwoChannelAdapterClass::command_factory()
 			"",
 			Tango::OPERATOR);
 	command_list.push_back(pStopCmd);
+
+	//	Command setCountSteps
+	setCountStepsClass	*psetCountStepsCmd =
+		new setCountStepsClass("setCountSteps",
+			Tango::DEV_LONG, Tango::DEV_VOID,
+			"",
+			"",
+			Tango::OPERATOR);
+	command_list.push_back(psetCountStepsCmd);
 
 	/*----- PROTECTED REGION ID(TwoChannelAdapterClass::command_factory_after) ENABLED START -----*/
 	
