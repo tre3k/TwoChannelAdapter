@@ -159,10 +159,12 @@ TwoChannelAdapterClass *TwoChannelAdapterClass::instance()
  *	returns The command output data (packed in the Any object)
  */
 //--------------------------------------------------------
-CORBA::Any *MotionRightClass::execute(Tango::DeviceImpl *device, TANGO_UNUSED(const CORBA::Any &in_any))
+CORBA::Any *MotionRightClass::execute(Tango::DeviceImpl *device, const CORBA::Any &in_any)
 {
 	cout2 << "MotionRightClass::execute(): arrived" << endl;
-	((static_cast<TwoChannelAdapter *>(device))->motion_right());
+	Tango::DevLong argin;
+	extract(in_any, argin);
+	((static_cast<TwoChannelAdapter *>(device))->motion_right(argin));
 	return new CORBA::Any();
 }
 
@@ -177,10 +179,12 @@ CORBA::Any *MotionRightClass::execute(Tango::DeviceImpl *device, TANGO_UNUSED(co
  *	returns The command output data (packed in the Any object)
  */
 //--------------------------------------------------------
-CORBA::Any *MotionLeftClass::execute(Tango::DeviceImpl *device, TANGO_UNUSED(const CORBA::Any &in_any))
+CORBA::Any *MotionLeftClass::execute(Tango::DeviceImpl *device, const CORBA::Any &in_any)
 {
 	cout2 << "MotionLeftClass::execute(): arrived" << endl;
-	((static_cast<TwoChannelAdapter *>(device))->motion_left());
+	Tango::DevLong argin;
+	extract(in_any, argin);
+	((static_cast<TwoChannelAdapter *>(device))->motion_left(argin));
 	return new CORBA::Any();
 }
 
@@ -199,26 +203,6 @@ CORBA::Any *StopClass::execute(Tango::DeviceImpl *device, TANGO_UNUSED(const COR
 {
 	cout2 << "StopClass::execute(): arrived" << endl;
 	((static_cast<TwoChannelAdapter *>(device))->stop());
-	return new CORBA::Any();
-}
-
-//--------------------------------------------------------
-/**
- * method : 		setCountStepsClass::execute()
- * description : 	method to trigger the execution of the command.
- *
- * @param	device	The device on which the command must be executed
- * @param	in_any	The command input data
- *
- *	returns The command output data (packed in the Any object)
- */
-//--------------------------------------------------------
-CORBA::Any *setCountStepsClass::execute(Tango::DeviceImpl *device, const CORBA::Any &in_any)
-{
-	cout2 << "setCountStepsClass::execute(): arrived" << endl;
-	Tango::DevLong argin;
-	extract(in_any, argin);
-	((static_cast<TwoChannelAdapter *>(device))->set_count_steps(argin));
 	return new CORBA::Any();
 }
 
@@ -486,7 +470,7 @@ void TwoChannelAdapterClass::command_factory()
 	//	Command MotionRight
 	MotionRightClass	*pMotionRightCmd =
 		new MotionRightClass("MotionRight",
-			Tango::DEV_VOID, Tango::DEV_VOID,
+			Tango::DEV_LONG, Tango::DEV_VOID,
 			"",
 			"",
 			Tango::OPERATOR);
@@ -495,7 +479,7 @@ void TwoChannelAdapterClass::command_factory()
 	//	Command MotionLeft
 	MotionLeftClass	*pMotionLeftCmd =
 		new MotionLeftClass("MotionLeft",
-			Tango::DEV_VOID, Tango::DEV_VOID,
+			Tango::DEV_LONG, Tango::DEV_VOID,
 			"",
 			"",
 			Tango::OPERATOR);
@@ -509,15 +493,6 @@ void TwoChannelAdapterClass::command_factory()
 			"",
 			Tango::OPERATOR);
 	command_list.push_back(pStopCmd);
-
-	//	Command setCountSteps
-	setCountStepsClass	*psetCountStepsCmd =
-		new setCountStepsClass("setCountSteps",
-			Tango::DEV_LONG, Tango::DEV_VOID,
-			"",
-			"",
-			Tango::OPERATOR);
-	command_list.push_back(psetCountStepsCmd);
 
 	/*----- PROTECTED REGION ID(TwoChannelAdapterClass::command_factory_after) ENABLED START -----*/
 	

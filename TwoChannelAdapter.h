@@ -158,15 +158,17 @@ public:
 	 *	Command MotionRight related method
 	 *	Description: 
 	 *
+	 *	@param argin 
 	 */
-	virtual void motion_right();
+	virtual void motion_right(Tango::DevLong argin);
 	virtual bool is_MotionRight_allowed(const CORBA::Any &any);
 	/**
 	 *	Command MotionLeft related method
 	 *	Description: 
 	 *
+	 *	@param argin 
 	 */
-	virtual void motion_left();
+	virtual void motion_left(Tango::DevLong argin);
 	virtual bool is_MotionLeft_allowed(const CORBA::Any &any);
 	/**
 	 *	Command Stop related method
@@ -175,14 +177,6 @@ public:
 	 */
 	virtual void stop();
 	virtual bool is_Stop_allowed(const CORBA::Any &any);
-	/**
-	 *	Command setCountSteps related method
-	 *	Description: 
-	 *
-	 *	@param argin 
-	 */
-	virtual void set_count_steps(Tango::DevLong argin);
-	virtual bool is_setCountSteps_allowed(const CORBA::Any &any);
 
 
 	//--------------------------------------------------------
@@ -206,7 +200,7 @@ public:
 	void setBitCS0(int fd, long offset, int numbit);
 	void unsetBitCS0(int fd, long offset, int numbit);
 	void stopMotion(int f,int channel);
-	void startMotion(int f,int channel,int lspeed,bool direction);
+	void startMotion(int f,int channel,int lspeed,int count_steps,bool direction);
 
 /*----- PROTECTED REGION END -----*/	//	TwoChannelAdapter::Additional Method prototypes
 };

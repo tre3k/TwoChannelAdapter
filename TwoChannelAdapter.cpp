@@ -49,14 +49,13 @@
 //  The following table gives the correspondence
 //  between command and method names.
 //
-//  Command name   |  Method name
+//  Command name  |  Method name
 //================================================================
-//  State          |  Inherited (no method)
-//  Status         |  Inherited (no method)
-//  MotionRight    |  motion_right
-//  MotionLeft     |  motion_left
-//  Stop           |  stop
-//  setCountSteps  |  set_count_steps
+//  State         |  Inherited (no method)
+//  Status        |  Inherited (no method)
+//  MotionRight   |  motion_right
+//  MotionLeft    |  motion_left
+//  Stop          |  stop
 //================================================================
 
 //================================================================
@@ -290,14 +289,17 @@ void TwoChannelAdapter::add_dynamic_attributes()
  *	Command MotionRight related method
  *	Description: 
  *
+ *	@param argin 
  */
 //--------------------------------------------------------
-void TwoChannelAdapter::motion_right()
+void TwoChannelAdapter::motion_right(Tango::DevLong argin)
 {
 	DEBUG_STREAM << "TwoChannelAdapter::MotionRight()  - " << device_name << endl;
 	/*----- PROTECTED REGION ID(TwoChannelAdapter::motion_right) ENABLED START -----*/
-	
-	startMotion(file_descriptor,num_of_motor,speed,false);
+
+	long int counter_step = argin;
+
+	startMotion(file_descriptor,num_of_motor,speed,counter_step,false);
 	device_state = Tango::DevState::MOVING;
 	
 	/*----- PROTECTED REGION END -----*/	//	TwoChannelAdapter::motion_right
@@ -307,14 +309,17 @@ void TwoChannelAdapter::motion_right()
  *	Command MotionLeft related method
  *	Description: 
  *
+ *	@param argin 
  */
 //--------------------------------------------------------
-void TwoChannelAdapter::motion_left()
+void TwoChannelAdapter::motion_left(Tango::DevLong argin)
 {
 	DEBUG_STREAM << "TwoChannelAdapter::MotionLeft()  - " << device_name << endl;
 	/*----- PROTECTED REGION ID(TwoChannelAdapter::motion_left) ENABLED START -----*/
-	
-	startMotion(file_descriptor,num_of_motor,speed,true);
+
+	long int counter_step = argin;
+
+	startMotion(file_descriptor,num_of_motor,speed,counter_step,true);
 	device_state = Tango::DevState::MOVING;
 	
 	/*----- PROTECTED REGION END -----*/	//	TwoChannelAdapter::motion_left
@@ -335,23 +340,6 @@ void TwoChannelAdapter::stop()
 	device_state = Tango::DevState::DISABLE;
 	
 	/*----- PROTECTED REGION END -----*/	//	TwoChannelAdapter::stop
-}
-//--------------------------------------------------------
-/**
- *	Command setCountSteps related method
- *	Description: 
- *
- *	@param argin 
- */
-//--------------------------------------------------------
-void TwoChannelAdapter::set_count_steps(Tango::DevLong argin)
-{
-	DEBUG_STREAM << "TwoChannelAdapter::setCountSteps()  - " << device_name << endl;
-	/*----- PROTECTED REGION ID(TwoChannelAdapter::set_count_steps) ENABLED START -----*/
-	
-	//	Add your own code
-	
-	/*----- PROTECTED REGION END -----*/	//	TwoChannelAdapter::set_count_steps
 }
 //--------------------------------------------------------
 /**
@@ -476,12 +464,12 @@ void TwoChannelAdapter::stopMotion(int f,int channel){
   return;
 }
 
-void TwoChannelAdapter::startMotion(int f,int channel,int lspeed,bool direction){
+void TwoChannelAdapter::startMotion(int f,int channel,int lspeed,int count_steps,bool direction){
   int freq = 500000;
   //int freq = 100000;
   //int speed = 50000000/(freq*2);
-  unsigned int step_number = 1677721;
-
+  //unsigned int step_number = 1677721;
+  unsigned int step_number = count_steps;
 
   bool enable_turnd = true;
   bool enable_end = true;
@@ -527,6 +515,22 @@ void TwoChannelAdapter::startMotion(int f,int channel,int lspeed,bool direction)
   return;
 }
 
+
+// //--------------------------------------------------------
+// /**
+//  *	Command setCountSteps related method
+//  *	Description: 
+//  *
+//  *	@param argin 
+//  */
+// //--------------------------------------------------------
+// void TwoChannelAdapter::set_count_steps(Tango::DevLong argin)
+// {
+// 	DEBUG_STREAM << "TwoChannelAdapter::setCountSteps()  - " << device_name << endl;
+// 	
+// 	//	Add your own code
+// 	
+// }
 
 
 /*----- PROTECTED REGION END -----*/	//	TwoChannelAdapter::namespace_ending

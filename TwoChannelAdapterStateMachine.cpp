@@ -94,21 +94,6 @@ bool TwoChannelAdapter::is_Stop_allowed(TANGO_UNUSED(const CORBA::Any &any))
 	return true;
 }
 
-//--------------------------------------------------------
-/**
- *	Method      : TwoChannelAdapter::is_setCountSteps_allowed()
- *	Description : Execution allowed for setCountSteps attribute
- */
-//--------------------------------------------------------
-bool TwoChannelAdapter::is_setCountSteps_allowed(TANGO_UNUSED(const CORBA::Any &any))
-{
-	//	Not any excluded states for setCountSteps command.
-	/*----- PROTECTED REGION ID(TwoChannelAdapter::setCountStepsStateAllowed) ENABLED START -----*/
-	
-	/*----- PROTECTED REGION END -----*/	//	TwoChannelAdapter::setCountStepsStateAllowed
-	return true;
-}
-
 
 /*----- PROTECTED REGION ID(TwoChannelAdapter::TwoChannelAdapterStateAllowed.AdditionalMethods) ENABLED START -----*/
 

@@ -123,29 +123,6 @@ public:
 	{return (static_cast<TwoChannelAdapter *>(dev))->is_Stop_allowed(any);}
 };
 
-//	Command setCountSteps class definition
-class setCountStepsClass : public Tango::Command
-{
-public:
-	setCountStepsClass(const char   *name,
-	               Tango::CmdArgType in,
-				   Tango::CmdArgType out,
-				   const char        *in_desc,
-				   const char        *out_desc,
-				   Tango::DispLevel  level)
-	:Command(name,in,out,in_desc,out_desc, level)	{};
-
-	setCountStepsClass(const char   *name,
-	               Tango::CmdArgType in,
-				   Tango::CmdArgType out)
-	:Command(name,in,out)	{};
-	~setCountStepsClass() {};
-	
-	virtual CORBA::Any *execute (Tango::DeviceImpl *dev, const CORBA::Any &any);
-	virtual bool is_allowed (Tango::DeviceImpl *dev, const CORBA::Any &any)
-	{return (static_cast<TwoChannelAdapter *>(dev))->is_setCountSteps_allowed(any);}
-};
-
 
 /**
  *	The TwoChannelAdapterClass singleton definition
