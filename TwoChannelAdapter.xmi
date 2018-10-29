@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ASCII"?>
 <pogoDsl:PogoSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pogoDsl="http://www.esrf.fr/tango/pogo/PogoDsl">
   <classes name="TwoChannelAdapter" pogoRevision="9.4">
-    <description description="" title="" sourcePath="/home/alex/TEX/servers/TwoChannelAdapter" language="Cpp" filestogenerate="XMI   file,Code files,Makefile,Protected Regions,Eclipse Project" license="GPL" copyright="" hasMandatoryProperty="false" hasConcreteProperty="true" hasAbstractCommand="false" hasAbstractAttribute="false">
+    <description description="" title="" sourcePath="/home/alex/TEX/servers/TwoChannelAdapter" language="Cpp" filestogenerate="XMI   file,Code files,Makefile,Protected Regions" license="GPL" copyright="" hasMandatoryProperty="false" hasConcreteProperty="true" hasAbstractCommand="false" hasAbstractAttribute="false">
       <inheritances classname="Device_Impl" sourcePath=""/>
       <identification contact="at mail.ru - pshcyrill" author="pshcyrill" emailDomain="mail.ru" classFamily="Motion" siteSpecific="" platform="Unix Like" bus="PCI" manufacturer="none" reference=""/>
     </description>
