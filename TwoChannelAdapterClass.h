@@ -52,6 +52,23 @@ namespace TwoChannelAdapter_ns
 /*----- PROTECTED REGION END -----*/	//	TwoChannelAdapterClass::classes for dynamic creation
 
 //=========================================
+//	Define classes for attributes
+//=========================================
+//	Attribute EncoderValue class definition
+class EncoderValueAttrib: public Tango::Attr
+{
+public:
+	EncoderValueAttrib():Attr("EncoderValue",
+			Tango::DEV_LONG, Tango::READ) {};
+	~EncoderValueAttrib() {};
+	virtual void read(Tango::DeviceImpl *dev,Tango::Attribute &att)
+		{(static_cast<TwoChannelAdapter *>(dev))->read_EncoderValue(att);}
+	virtual bool is_allowed(Tango::DeviceImpl *dev,Tango::AttReqType ty)
+		{return (static_cast<TwoChannelAdapter *>(dev))->is_EncoderValue_allowed(ty);}
+};
+
+
+//=========================================
 //	Define classes for commands
 //=========================================
 //	Command MotionRight class definition

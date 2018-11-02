@@ -422,6 +422,32 @@ void TwoChannelAdapterClass::attribute_factory(vector<Tango::Attr *> &att_list)
 	//	Add your own code
 	
 	/*----- PROTECTED REGION END -----*/	//	TwoChannelAdapterClass::attribute_factory_before
+	//	Attribute : EncoderValue
+	EncoderValueAttrib	*encodervalue = new EncoderValueAttrib();
+	Tango::UserDefaultAttrProp	encodervalue_prop;
+	//	description	not set for EncoderValue
+	//	label	not set for EncoderValue
+	//	unit	not set for EncoderValue
+	//	standard_unit	not set for EncoderValue
+	//	display_unit	not set for EncoderValue
+	//	format	not set for EncoderValue
+	//	max_value	not set for EncoderValue
+	//	min_value	not set for EncoderValue
+	//	max_alarm	not set for EncoderValue
+	//	min_alarm	not set for EncoderValue
+	//	max_warning	not set for EncoderValue
+	//	min_warning	not set for EncoderValue
+	//	delta_t	not set for EncoderValue
+	//	delta_val	not set for EncoderValue
+	encodervalue_prop.set_event_period("500");
+	
+	encodervalue->set_default_properties(encodervalue_prop);
+	encodervalue->set_polling_period(500);
+	encodervalue->set_disp_level(Tango::OPERATOR);
+	//	Not Memorized
+	encodervalue->set_data_ready_event(true);
+	att_list.push_back(encodervalue);
+
 
 	//	Create a list of static attributes
 	create_static_attribute_list(get_class_attr()->get_attr_list());

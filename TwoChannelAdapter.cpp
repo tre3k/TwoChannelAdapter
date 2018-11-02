@@ -61,6 +61,7 @@
 //================================================================
 //  Attributes managed is:
 //================================================================
+//  EncoderValue  |  Tango::DevLong	Scalar
 //================================================================
 
 namespace TwoChannelAdapter_ns
@@ -119,6 +120,7 @@ void TwoChannelAdapter::delete_device()
 	close(file_descriptor);
 	
 	/*----- PROTECTED REGION END -----*/	//	TwoChannelAdapter::delete_device
+	delete[] attr_EncoderValue_read;
 }
 
 //--------------------------------------------------------
@@ -140,6 +142,7 @@ void TwoChannelAdapter::init_device()
 	//	Get the device properties from database
 	get_device_property();
 	
+	attr_EncoderValue_read = new Tango::DevLong[1];
 	/*----- PROTECTED REGION ID(TwoChannelAdapter::init_device) ENABLED START -----*/
 	
 	//	Initialize device
@@ -267,6 +270,27 @@ void TwoChannelAdapter::read_attr_hardware(TANGO_UNUSED(vector<long> &attr_list)
 	/*----- PROTECTED REGION END -----*/	//	TwoChannelAdapter::read_attr_hardware
 }
 
+//--------------------------------------------------------
+/**
+ *	Read attribute EncoderValue related method
+ *	Description: 
+ *
+ *	Data type:	Tango::DevLong
+ *	Attr type:	Scalar
+ */
+//--------------------------------------------------------
+void TwoChannelAdapter::read_EncoderValue(Tango::Attribute &attr)
+{
+	DEBUG_STREAM << "TwoChannelAdapter::read_EncoderValue(Tango::Attribute &attr) entering... " << endl;
+	/*----- PROTECTED REGION ID(TwoChannelAdapter::read_EncoderValue) ENABLED START -----*/
+
+    *(attr_EncoderValue_read) = (Tango::DevLong) readEncoder(file_descriptor,num_of_motor);
+
+	//	Set the attribute value
+	attr.set_value(attr_EncoderValue_read);
+	
+	/*----- PROTECTED REGION END -----*/	//	TwoChannelAdapter::read_EncoderValue
+}
 
 //--------------------------------------------------------
 /**
@@ -301,6 +325,7 @@ void TwoChannelAdapter::motion_right(Tango::DevLong argin)
 
 	startMotion(file_descriptor,num_of_motor,speed,counter_step,false);
 	device_state = Tango::DevState::MOVING;
+
 	
 	/*----- PROTECTED REGION END -----*/	//	TwoChannelAdapter::motion_right
 }
@@ -339,6 +364,7 @@ void TwoChannelAdapter::stop()
 	stopMotion(file_descriptor,num_of_motor);
 	device_state = Tango::DevState::DISABLE;
 	
+	
 	/*----- PROTECTED REGION END -----*/	//	TwoChannelAdapter::stop
 }
 //--------------------------------------------------------
@@ -359,6 +385,7 @@ void TwoChannelAdapter::add_dynamic_commands()
 
 /*----- PROTECTED REGION ID(TwoChannelAdapter::namespace_ending) ENABLED START -----*/
 
+
 char TwoChannelAdapter::read8CS0(int fd, long offset){
 	char byte = 0x00;
 	ioctl(fd,CS0_SET_ADDR,offset);
@@ -366,11 +393,39 @@ char TwoChannelAdapter::read8CS0(int fd, long offset){
 	return byte;
 }
 
+short TwoChannelAdapter::read16CS0(int fd, long offset) {
+	short int retval = 0x0000;
+	retval = read8CS0(fd,offset);
+	retval |= (read8CS0(fd,offset+1) << 8);
+	return  retval;
+}
+
+int TwoChannelAdapter::read32CS0(int fd, long offset) {
+	int retval = 0x00000000;
+	retval = read16CS0(fd,offset) & 0xffff;
+	retval |= (read16CS0(fd,offset+2) << 16);
+	return retval;
+}
+
 char TwoChannelAdapter::read8CS1(int fd, long offset){
 	char byte = 0x00;
 	ioctl(fd,CS1_SET_ADDR,offset);
 	read(fd,&byte,1);
 	return byte;
+}
+
+short TwoChannelAdapter::read16CS1(int fd, long offset) {
+	short int retval = 0x0000;
+	retval = read8CS1(fd,offset);
+	retval |= (read8CS1(fd,offset+1) << 8);
+	return  retval;
+}
+
+int TwoChannelAdapter::read32CS1(int fd, long offset) {
+	int retval = 0x00000000;
+	retval = read16CS1(fd,offset) & 0xffff;
+	retval |= (read16CS1(fd,offset+2) << 16);
+	return retval;
 }
 
 int TwoChannelAdapter::write8CS0(int fd, long offset, char byte){
@@ -455,6 +510,8 @@ void TwoChannelAdapter::initMotion(int f,int channel){
 	unsetBitCS0(f,1+channel*16,5);
 	unsetBitCS0(f,1+channel*16,2); //unsetBitCS0(f,1,6);
 
+
+
 	return;
 }
 
@@ -515,22 +572,20 @@ void TwoChannelAdapter::startMotion(int f,int channel,int lspeed,int count_steps
   return;
 }
 
+long int TwoChannelAdapter::readEncoder(int f, int channel) {
+	long int value = 0;
 
-// //--------------------------------------------------------
-// /**
-//  *	Command setCountSteps related method
-//  *	Description: 
-//  *
-//  *	@param argin 
-//  */
-// //--------------------------------------------------------
-// void TwoChannelAdapter::set_count_steps(Tango::DevLong argin)
-// {
-// 	DEBUG_STREAM << "TwoChannelAdapter::setCountSteps()  - " << device_name << endl;
-// 	
-// 	//	Add your own code
-// 	
-// }
+	
+    struct timeval tv;
+    gettimeofday(&tv,NULL);
+
+    value=tv.tv_sec;
+
+
+	//value = read32CS1(f,0+channel*16);
+
+	return value;
+}
 
 
 /*----- PROTECTED REGION END -----*/	//	TwoChannelAdapter::namespace_ending

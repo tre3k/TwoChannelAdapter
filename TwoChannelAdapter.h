@@ -79,6 +79,9 @@ public:
 	//	general_device_name:	
 	string	general_device_name;
 
+//	Attribute data members
+public:
+	Tango::DevLong	*attr_EncoderValue_read;
 
 //	Constructors and destructors
 public:
@@ -140,6 +143,16 @@ public:
 	//--------------------------------------------------------
 	virtual void read_attr_hardware(vector<long> &attr_list);
 
+/**
+ *	Attribute EncoderValue related methods
+ *	Description: 
+ *
+ *	Data type:	Tango::DevLong
+ *	Attr type:	Scalar
+ */
+	virtual void read_EncoderValue(Tango::Attribute &attr);
+	virtual bool is_EncoderValue_allowed(Tango::AttReqType type);
+
 
 	//--------------------------------------------------------
 	/**
@@ -192,6 +205,10 @@ public:
 	void initMotion(int f, int channel);
 	char read8CS0(int fd, long offset);
 	char read8CS1(int fd, long offset);
+	short read16CS0(int fd, long offset);
+	short read16CS1(int fd, long offset);
+	int read32CS0(int fd, long offset);
+    int read32CS1(int fd, long offset);
 	int write8CS0(int fd, long offset, char byte);
 	int write8CS1(int fd, long offset, char byte);
 	int write16CS0(int fd, long offset, unsigned short word);
@@ -201,6 +218,7 @@ public:
 	void unsetBitCS0(int fd, long offset, int numbit);
 	void stopMotion(int f,int channel);
 	void startMotion(int f,int channel,int lspeed,int count_steps,bool direction);
+	long int readEncoder(int f,int channel);
 
 /*----- PROTECTED REGION END -----*/	//	TwoChannelAdapter::Additional Method prototypes
 };

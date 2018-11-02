@@ -44,6 +44,22 @@ namespace TwoChannelAdapter_ns
 //		Attributes Allowed Methods
 //=================================================
 
+//--------------------------------------------------------
+/**
+ *	Method      : TwoChannelAdapter::is_EncoderValue_allowed()
+ *	Description : Execution allowed for EncoderValue attribute
+ */
+//--------------------------------------------------------
+bool TwoChannelAdapter::is_EncoderValue_allowed(TANGO_UNUSED(Tango::AttReqType type))
+{
+
+	//	Not any excluded states for EncoderValue attribute in read access.
+	/*----- PROTECTED REGION ID(TwoChannelAdapter::EncoderValueStateAllowed_READ) ENABLED START -----*/
+	
+	/*----- PROTECTED REGION END -----*/	//	TwoChannelAdapter::EncoderValueStateAllowed_READ
+	return true;
+}
+
 
 //=================================================
 //		Commands Allowed Methods
