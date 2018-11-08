@@ -436,10 +436,10 @@ int TwoChannelAdapter::write8CS0(int fd, long offset, char byte){
 }
 
 int TwoChannelAdapter::write8CS1(int fd, long offset, char byte){
-  int retval;
-  retval = ioctl(fd,CS1_SET_ADDR,offset);
-  retval = (int) write(fd,&byte,1);
-  return retval;
+    int retval;
+    retval = ioctl(fd,CS1_SET_ADDR,offset);
+    retval = (int) write(fd,&byte,1);
+    return retval;
 }
 
 int TwoChannelAdapter::write16CS0(int fd, long offset, unsigned short word){
@@ -490,17 +490,25 @@ void TwoChannelAdapter::unsetBitCS0(int fd, long offset, int numbit){
 
 
 void TwoChannelAdapter::initMotion(int f,int channel){
-	write8CS0(f,3+channel*16,0x00);
-	write8CS0(f,3+channel*16,0x01);
-	write16CS0(f,19+channel*16,50); //set speed SSI
-	write8CS0(f,3+channel*16,0x03); // ENSSI, CLRSSI
+	write8CS0(f,3,0x00);
+	write8CS0(f,3,0x01);
+	write16CS0(f,19,50); //set speed SSI
+	write8CS0(f,3,0x03); // ENSSI, CLRSSI
 
 	write8CS0(f,1+channel*16,0x00);
 
 	write8CS0(f,0+channel*16,0x00);
 	setBitCS0(f,0+channel*16,4);    // set 4 bit in 0x00 offset
 
-	setBitCS0(f,0+channel*16,5);    //ENSSI
+	write8CS0(f,13+channel*16,26+1); //26 bit - encoder
+
+	write8CS1(f,4+channel*16,0xff);
+    write8CS1(f,5+channel*16,0xff);
+    write8CS1(f,6+channel*16,0xff);
+    write8CS1(f,7+channel*16,0x03);
+
+
+    setBitCS0(f,0+channel*16,5);    //ENSSI
 
 	setBitCS0(f,1+channel*16,6);
 
@@ -509,7 +517,6 @@ void TwoChannelAdapter::initMotion(int f,int channel){
 	unsetBitCS0(f,1+channel*16,0);
 	unsetBitCS0(f,1+channel*16,5);
 	unsetBitCS0(f,1+channel*16,2); //unsetBitCS0(f,1,6);
-
 
 
 	return;
@@ -538,7 +545,7 @@ void TwoChannelAdapter::startMotion(int f,int channel,int lspeed,int count_steps
 
   //speed = 0x018000;                  //!!!!!!!!!!!!!!
   //speed = 0x020000;
-  write24CS0(f,4+channel*16,lspeed);
+  write24CS0(f,4+channel*16,(int)(50000000/(lspeed*2)));
 
   setBitCS0(f,0+channel*16,6);     //enable write step counter
   write24CS0(f,7+channel*16,step_number);
@@ -573,18 +580,63 @@ void TwoChannelAdapter::startMotion(int f,int channel,int lspeed,int count_steps
 }
 
 long int TwoChannelAdapter::readEncoder(int f, int channel) {
-	long int value = 0;
+    long int value = 0;
+    long int retval = 0;
 
-	
+    char status = 0x00;
+
+    /*
     struct timeval tv;
     gettimeofday(&tv,NULL);
 
     value=tv.tv_sec;
+    */
 
 
-	//value = read32CS1(f,0+channel*16);
+    unsetBitCS0(f, 1 + channel * 16, 0);
+    setBitCS0(f, 1 + channel * 16, 0);
 
-	return value;
+    //printf("Channel: %d\n",channel);
+
+    /*
+    printf("0 byte: 0x%.2x\n",0xff&read8CS0(f,1+channel*16));
+    printf("2 byte: 0x%.2x\n",0xff&read8CS0(f,2+channel*16));
+    printf("2 byte: 0x%.2x\n",0xff&read8CS0(f,2+channel*16));
+    printf("2 byte: 0x%.2x\n",0xff&read8CS0(f,2+channel*16));
+    printf("2 byte: 0x%.2x\n",0xff&read8CS0(f,2+channel*16));
+    */
+
+    /*
+    while(!(status&0x01)){
+        status = read8CS0(f,2+channel*16);
+        //printf("status: 0x%.2x\n",status & 0xff);
+    }
+     */
+
+
+    //value = read32CS1(f, 0 + channel * 16);
+    //std::cout << value << "\n";
+
+    if (channel == 1) {
+        printf("0x%.2x ", 0xff & read8CS1(f, 3 + channel * 16));
+        printf("0x%.2x ", 0xff & read8CS1(f, 2 + channel * 16));
+        printf("0x%.2x ", 0xff & read8CS1(f, 1 + channel * 16));
+        printf("0x%.2x\n", 0xff & read8CS1(f, 0 + channel * 16));
+    }
+
+	/*
+    for (retval=0;value;)
+    {
+        retval^=value;
+        value=value>>1;
+    }
+    */
+
+	retval = value;
+
+    //if(channel==1) printf("%d\n",retval);
+
+    return retval;
 }
 
 

@@ -14,11 +14,6 @@
     <list default="true" id="0d3f75a5-0010-4882-a623-4ba84a115b76" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/TwoChannelAdapter.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/TwoChannelAdapter.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/TwoChannelAdapter.h" beforeDir="false" afterPath="$PROJECT_DIR$/TwoChannelAdapter.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/TwoChannelAdapter.xmi" beforeDir="false" afterPath="$PROJECT_DIR$/TwoChannelAdapter.xmi" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/TwoChannelAdapterClass.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/TwoChannelAdapterClass.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/TwoChannelAdapterClass.h" beforeDir="false" afterPath="$PROJECT_DIR$/TwoChannelAdapterClass.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/TwoChannelAdapterStateMachine.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/TwoChannelAdapterStateMachine.cpp" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
     <ignored path="$PROJECT_DIR$/CMakeFiles/" />
@@ -63,15 +58,17 @@
     <session id="-330649649">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.open.time.17" value="2" />
-          <entry key="project.open.time.18" value="1" />
+          <entry key="project.open.time.17" value="3" />
+          <entry key="project.open.time.18" value="2" />
+          <entry key="project.open.time.21" value="1" />
+          <entry key="project.open.time.23" value="1" />
           <entry key="project.open.time.7" value="1" />
-          <entry key="project.opened" value="4" />
+          <entry key="project.opened" value="8" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="cpp" value="1330" />
+          <entry key="cpp" value="2125" />
           <entry key="cpp#" value="101" />
           <entry key="h" value="149" />
           <entry key="txt" value="55" />
@@ -80,14 +77,14 @@
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="CMakeLists.txt" value="55" />
-          <entry key="ObjectiveC" value="1580" />
+          <entry key="ObjectiveC" value="2375" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
           <entry key="bck" value="1" />
           <entry key="cmake" value="1" />
-          <entry key="cpp#" value="1" />
+          <entry key="cpp#" value="2" />
           <entry key="h" value="4" />
           <entry key="project" value="1" />
           <entry key="txt" value="2" />
@@ -96,7 +93,7 @@
       <usages-collector id="statistics.file.types.open">
         <counts>
           <entry key="CMakeLists.txt" value="3" />
-          <entry key="ObjectiveC" value="5" />
+          <entry key="ObjectiveC" value="6" />
           <entry key="PLAIN_TEXT" value="2" />
         </counts>
       </usages-collector>
@@ -107,7 +104,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/main.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="345">
+            <state relative-caret-position="525">
               <caret line="35" column="16" selection-start-line="35" selection-start-column="16" selection-end-line="35" selection-end-column="16" />
             </state>
           </provider>
@@ -116,8 +113,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/TwoChannelAdapter.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="221">
-              <caret line="577" column="4" selection-start-line="577" selection-start-column="4" selection-end-line="577" selection-end-column="4" />
+            <state relative-caret-position="490">
+              <caret line="632" column="6" lean-forward="true" selection-start-line="632" selection-start-column="6" selection-end-line="632" selection-end-column="6" />
               <folding>
                 <element signature="e#1528#1558#0" expanded="true" />
               </folding>
@@ -128,8 +125,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/TwoChannelAdapter.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="238">
-              <caret line="210" column="14" selection-start-line="210" selection-start-column="14" selection-end-line="210" selection-end-column="14" />
+            <state relative-caret-position="2280">
+              <caret line="152" column="28" selection-start-line="152" selection-start-column="28" selection-end-line="152" selection-end-column="28" />
               <folding>
                 <element signature="e#1293#1311#0" expanded="true" />
               </folding>
@@ -164,6 +161,7 @@
       <find>read</find>
       <find>read_encoder</find>
       <find>enco</find>
+      <find>freq</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -263,17 +261,21 @@
       <workItem from="1541158969657" duration="334000" />
       <workItem from="1541159672802" duration="659000" />
       <workItem from="1541161465511" duration="4608000" />
+      <workItem from="1541503792196" duration="564000" />
+      <workItem from="1541665145676" duration="2344000" />
+      <workItem from="1541668259089" duration="2815000" />
+      <workItem from="1541672453714" duration="1064000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="8664000" />
+    <option name="totallyTimeSpent" value="15451000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="67" y="25" width="1853" height="1055" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.24460432" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.2556724" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -288,7 +290,7 @@
       <window_info anchor="bottom" id="Terminal" order="9" weight="0.32972974" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
       <window_info anchor="bottom" id="Version Control" order="11" show_stripe_button="false" />
-      <window_info anchor="bottom" id="CMake" order="12" visible="true" weight="0.32972974" />
+      <window_info active="true" anchor="bottom" id="CMake" order="12" visible="true" weight="0.32972974" />
       <window_info anchor="bottom" id="Inspection Results" order="13" weight="0.32972974" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -327,6 +329,33 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/main.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="525">
+          <caret line="35" column="16" selection-start-line="35" selection-start-column="16" selection-end-line="35" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/#TwoChannelAdapter.cpp#">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="6285">
+          <caret line="419" column="24" selection-start-line="419" selection-start-column="24" selection-end-line="419" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/TwoChannelAdapter.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2280">
+          <caret line="152" column="28" selection-start-line="152" selection-start-column="28" selection-end-line="152" selection-end-column="28" />
+          <folding>
+            <element signature="e#1293#1311#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cmake_install.cmake">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
     <entry file="file://$PROJECT_DIR$/.project">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -337,37 +366,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/#TwoChannelAdapter.cpp#">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="356">
-          <caret line="303" selection-start-line="303" selection-end-line="303" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="345">
-          <caret line="35" column="16" selection-start-line="35" selection-start-column="16" selection-end-line="35" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/cmake_install.cmake">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/TwoChannelAdapter.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="210" column="14" selection-start-line="210" selection-start-column="14" selection-end-line="210" selection-end-column="14" />
-          <folding>
-            <element signature="e#1293#1311#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/TwoChannelAdapter.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="577" column="4" selection-start-line="577" selection-start-column="4" selection-end-line="577" selection-end-column="4" />
+        <state relative-caret-position="490">
+          <caret line="632" column="6" lean-forward="true" selection-start-line="632" selection-start-column="6" selection-end-line="632" selection-end-column="6" />
           <folding>
             <element signature="e#1528#1558#0" expanded="true" />
           </folding>
