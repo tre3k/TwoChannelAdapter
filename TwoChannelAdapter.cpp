@@ -284,7 +284,10 @@ void TwoChannelAdapter::read_EncoderValue(Tango::Attribute &attr)
 	DEBUG_STREAM << "TwoChannelAdapter::read_EncoderValue(Tango::Attribute &attr) entering... " << endl;
 	/*----- PROTECTED REGION ID(TwoChannelAdapter::read_EncoderValue) ENABLED START -----*/
 
-    *(attr_EncoderValue_read) = (Tango::DevLong) readEncoder(file_descriptor,num_of_motor);
+    //*(attr_EncoderValue_read) = (Tango::DevLong) readEncoder(file_descriptor,num_of_motor);
+    *(attr_EncoderValue_read) = (Tango::DevLong) fromGrayCode(readEncoder(file_descriptor,num_of_motor));
+
+    std::cout << *(attr_EncoderValue_read) << "\n";
 
 	//	Set the attribute value
 	attr.set_value(attr_EncoderValue_read);
@@ -502,6 +505,7 @@ void TwoChannelAdapter::initMotion(int f,int channel){
 
 	write8CS0(f,13+channel*16,26+1); //26 bit - encoder
 
+	/* set mask */
 	write8CS1(f,4+channel*16,0xff);
     write8CS1(f,5+channel*16,0xff);
     write8CS1(f,6+channel*16,0xff);
@@ -529,10 +533,6 @@ void TwoChannelAdapter::stopMotion(int f,int channel){
 }
 
 void TwoChannelAdapter::startMotion(int f,int channel,int lspeed,int count_steps,bool direction){
-  int freq = 500000;
-  //int freq = 100000;
-  //int speed = 50000000/(freq*2);
-  //unsigned int step_number = 1677721;
   unsigned int step_number = count_steps;
 
   bool enable_turnd = true;
@@ -543,8 +543,6 @@ void TwoChannelAdapter::startMotion(int f,int channel,int lspeed,int count_steps
 
   unsetBitCS0(f,0+channel*16,2);     // enable step counter
 
-  //speed = 0x018000;                  //!!!!!!!!!!!!!!
-  //speed = 0x020000;
   write24CS0(f,4+channel*16,(int)(50000000/(lspeed*2)));
 
   setBitCS0(f,0+channel*16,6);     //enable write step counter
@@ -581,64 +579,31 @@ void TwoChannelAdapter::startMotion(int f,int channel,int lspeed,int count_steps
 
 long int TwoChannelAdapter::readEncoder(int f, int channel) {
     long int value = 0;
-    long int retval = 0;
-
-    char status = 0x00;
-
-    /*
-    struct timeval tv;
-    gettimeofday(&tv,NULL);
-
-    value=tv.tv_sec;
-    */
-
 
     unsetBitCS0(f, 1 + channel * 16, 0);
     setBitCS0(f, 1 + channel * 16, 0);
+    value = read32CS1(f, 0 + channel * 16);
 
-    //printf("Channel: %d\n",channel);
+    return value;
+}
 
-    /*
-    printf("0 byte: 0x%.2x\n",0xff&read8CS0(f,1+channel*16));
-    printf("2 byte: 0x%.2x\n",0xff&read8CS0(f,2+channel*16));
-    printf("2 byte: 0x%.2x\n",0xff&read8CS0(f,2+channel*16));
-    printf("2 byte: 0x%.2x\n",0xff&read8CS0(f,2+channel*16));
-    printf("2 byte: 0x%.2x\n",0xff&read8CS0(f,2+channel*16));
-    */
+long int TwoChannelAdapter::fromGrayCode(long int value) {
+    int retval = 0;
 
     /*
-    while(!(status&0x01)){
-        status = read8CS0(f,2+channel*16);
-        //printf("status: 0x%.2x\n",status & 0xff);
-    }
-     */
-
-
-    //value = read32CS1(f, 0 + channel * 16);
-    //std::cout << value << "\n";
-
-    if (channel == 1) {
-        printf("0x%.2x ", 0xff & read8CS1(f, 3 + channel * 16));
-        printf("0x%.2x ", 0xff & read8CS1(f, 2 + channel * 16));
-        printf("0x%.2x ", 0xff & read8CS1(f, 1 + channel * 16));
-        printf("0x%.2x\n", 0xff & read8CS1(f, 0 + channel * 16));
-    }
-
-	/*
     for (retval=0;value;)
     {
         retval^=value;
         value=value>>1;
     }
-    */
+     */
 
-	retval = value;
+    while(value!=0){
+        value = value >> 1;
+    }
 
-    //if(channel==1) printf("%d\n",retval);
-
-    return retval;
+	return retval;
 }
-
 
 /*----- PROTECTED REGION END -----*/	//	TwoChannelAdapter::namespace_ending
 } //	namespace

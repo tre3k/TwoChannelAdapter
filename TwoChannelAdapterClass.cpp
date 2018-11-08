@@ -439,10 +439,10 @@ void TwoChannelAdapterClass::attribute_factory(vector<Tango::Attr *> &att_list)
 	//	min_warning	not set for EncoderValue
 	//	delta_t	not set for EncoderValue
 	//	delta_val	not set for EncoderValue
-	encodervalue_prop.set_event_period("500");
+	encodervalue_prop.set_event_period("1000");
 	
 	encodervalue->set_default_properties(encodervalue_prop);
-	encodervalue->set_polling_period(500);
+	encodervalue->set_polling_period(1000);
 	encodervalue->set_disp_level(Tango::OPERATOR);
 	//	Not Memorized
 	encodervalue->set_data_ready_event(true);

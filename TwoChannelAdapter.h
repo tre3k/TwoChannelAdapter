@@ -202,6 +202,8 @@ public:
 
 /*----- PROTECTED REGION ID(TwoChannelAdapter::Additional Method prototypes) ENABLED START -----*/
 
+    long int fromGrayCode(long int value);
+
 	void initMotion(int f, int channel);
 	char read8CS0(int fd, long offset);
 	char read8CS1(int fd, long offset);
