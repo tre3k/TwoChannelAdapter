@@ -1,6 +1,6 @@
 # TwoChannelAdapter
 
-The tango-CS server for the "2 channel adapter" device.
+The tango-CS server for the "2 channel adapter" PNPI custom device.
 
 Commands:
 -----------------------------------
