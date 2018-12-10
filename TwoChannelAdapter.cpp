@@ -284,10 +284,10 @@ void TwoChannelAdapter::read_EncoderValue(Tango::Attribute &attr)
 	DEBUG_STREAM << "TwoChannelAdapter::read_EncoderValue(Tango::Attribute &attr) entering... " << endl;
 	/*----- PROTECTED REGION ID(TwoChannelAdapter::read_EncoderValue) ENABLED START -----*/
 
-    //*(attr_EncoderValue_read) = (Tango::DevLong) readEncoder(file_descriptor,num_of_motor);
-    *(attr_EncoderValue_read) = (Tango::DevLong) fromGrayCode(readEncoder(file_descriptor,num_of_motor));
+    *(attr_EncoderValue_read) = (Tango::DevLong) readEncoder(file_descriptor,num_of_motor);
+    //*(attr_EncoderValue_read) = (Tango::DevLong) fromGrayCode(readEncoder(file_descriptor,num_of_motor));
 
-    std::cout << *(attr_EncoderValue_read) << "\n";
+    //std::cout << *(attr_EncoderValue_read) << "\n";
 
 	//	Set the attribute value
 	attr.set_value(attr_EncoderValue_read);
@@ -432,10 +432,10 @@ int TwoChannelAdapter::read32CS1(int fd, long offset) {
 }
 
 int TwoChannelAdapter::write8CS0(int fd, long offset, char byte){
-  int retval;
-  retval = ioctl(fd,CS0_SET_ADDR,offset);
-  retval = (int) write(fd,&byte,1);
-  return retval;
+    int retval;
+    retval = ioctl(fd,CS0_SET_ADDR,offset);
+    retval = (int) write(fd,&byte,1);
+    return retval;
 }
 
 int TwoChannelAdapter::write8CS1(int fd, long offset, char byte){
@@ -446,12 +446,12 @@ int TwoChannelAdapter::write8CS1(int fd, long offset, char byte){
 }
 
 int TwoChannelAdapter::write16CS0(int fd, long offset, unsigned short word){
-  int retval;
-  char byte1 = (char)(word & 0x00ff);
-  char byte2 = (char)((word >> 8) & 0x00ff);
-  retval = write8CS0(fd,offset,byte1);
-  retval = write8CS0(fd,offset+1,byte2);
-  return retval;
+    int retval;
+    char byte1 = (char)(word & 0x00ff);
+    char byte2 = (char)((word >> 8) & 0x00ff);
+    retval = write8CS0(fd,offset,byte1);
+    retval = write8CS0(fd,offset+1,byte2);
+    return retval;
 }
 
 int TwoChannelAdapter::write24CS0(int fd, long offset, unsigned int twoword){
@@ -590,17 +590,13 @@ long int TwoChannelAdapter::readEncoder(int f, int channel) {
 long int TwoChannelAdapter::fromGrayCode(long int value) {
     int retval = 0;
 
-    /*
+
     for (retval=0;value;)
     {
         retval^=value;
         value=value>>1;
     }
-     */
 
-    while(value!=0){
-        value = value >> 1;
-    }
 
 	return retval;
 }
