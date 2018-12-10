@@ -1,27 +1,139 @@
 //
-// Created by kirill on 10.12.18.
+// Created by Kirill Pshenichnyi on 10.12.18.
 //
 
 #include "pcidevfunctions.h"
 
-PciDevFunctions::PciDevFunctions(const char *filename) {
+PciDevFunctions::PciDevFunctions(const char *filename, int channel) {
     status = STATUS_OK;
     file_descriptor = open(filename,O_RDWR);
-    if(file_descriptor < 0) status |= STATUS_ERROR_OPEN_FILE;
+    if(file_descriptor < 0){
+        status |= STATUS_ERROR_OPEN_FILE;
+        return;
+    }
+    g_channel = channel;
 }
 
 unsigned  int PciDevFunctions::getStatus() {
     return status;
 }
 
-void PciDevFunctions::stopMotion(int channel) {
-    unsetBitCS0(file_descriptor,0+channel*16,3);
-    unsetBitCS0(file_descriptor,1+channel*16,3);  //Power OFF
+void PciDevFunctions::setFrequency(double freq) {
+    frequency = freq;
+}
+
+void PciDevFunctions::initMove() {
+    write8CS0(file_descriptor,3,0x00);
+    write8CS0(file_descriptor,3,0x01);
+    write16CS0(file_descriptor,19,50);                                  // set speed SSI
+    write8CS0(file_descriptor,3,0x03);                                  // ENSSI, CLRSSI
+
+    write8CS0(file_descriptor,1+g_channel*16,0x00);
+
+    write8CS0(file_descriptor,0+g_channel*16,0x00);
+    setBitCS0(file_descriptor,0+g_channel*16,4);                        // set 4 bit in 0x00 offset
+
+    write8CS0(file_descriptor,13+g_channel*16,26+1);                    // 26 bit - encoder
+
+    /* set mask */
+    write8CS1(file_descriptor,4+g_channel*16,0xff);
+    write8CS1(file_descriptor,5+g_channel*16,0xff);
+    write8CS1(file_descriptor,6+g_channel*16,0xff);
+    write8CS1(file_descriptor,7+g_channel*16,0x03);
+
+    setBitCS0(file_descriptor,0+g_channel*16,5);                        // ENSSI
+    setBitCS0(file_descriptor,1+g_channel*16,6);
+
+    /* default triggers value */
+    unsetBitCS0(file_descriptor,1+g_channel*16,0);
+    unsetBitCS0(file_descriptor,1+g_channel*16,5);
+    unsetBitCS0(file_descriptor,1+g_channel*16,2);                      //unsetBitCS0(f,1,6);
+
+    return;
+}
+
+void PciDevFunctions::startMove(int count_step,bool direction){
+
+    bool enable_turnd = true;
+    bool enable_end = true;
+
+
+    setBitCS0(file_descriptor,0+g_channel*16,0);                        //REGISTER_CONTROL set 0 bit for enable step frequency
+    unsetBitCS0(file_descriptor,0+g_channel*16,2);                      // enable step counter
+    write24CS0(file_descriptor,4+g_channel*16,
+               (int)(50000000/(frequency*2)));
+
+    setBitCS0(file_descriptor,0+g_channel*16,6);                        // enable write step counter
+    write24CS0(file_descriptor,7+g_channel*16, count_step);
+    setBitCS0(file_descriptor,1+g_channel*16,0);
+
+    /* REGISTER_OPTIONS */
+    if(enable_turnd){
+        setBitCS0(file_descriptor,1+g_channel*16,2);                    // not turned
+    }else{
+        unsetBitCS0(file_descriptor,1+g_channel*16,2);
+    }
+
+    if(enable_end){
+        setBitCS0(file_descriptor,1+g_channel*16,6);                     // disable end
+    }else{
+        unsetBitCS0(file_descriptor,1+g_channel*16,6);
+    }
+
+    if(direction){
+        setBitCS0(file_descriptor,1+g_channel*16,1);
+    }else{
+        unsetBitCS0(file_descriptor,1+g_channel*16,1);
+    }
+
+    unsetBitCS0(file_descriptor,1+g_channel*16,5);
+    setBitCS0(file_descriptor,0+g_channel*16,1);
+    setBitCS0(file_descriptor,0+g_channel*16,2);
+
+    setBitCS0(file_descriptor,0+g_channel*16,3);                            //enable work step counter
+    setBitCS0(file_descriptor,1+g_channel*16,3);                            //Power ON
+    return;
+}
+
+void PciDevFunctions::stopMotion() {
+    if(status & 0x0f) return;
+    unsetBitCS0(file_descriptor,0+g_channel*16,3);
+    unsetBitCS0(file_descriptor,1+g_channel*16,3);                          //Power OFF
     status = STATUS_STOP_MOTION;
     return;
 }
 
-/* private functions */
+int PciDevFunctions::getEncoder() {
+    int value = 0;
+    unsetBitCS0(file_descriptor, 1+g_channel*16, 0);
+    setBitCS0(file_descriptor, 1+g_channel*16, 0);
+    value = read32CS1(file_descriptor, 0+g_channel*16);
+    return value;
+}
+
+/* convert to noraml value from gray code */
+int PciDevFunctions::fromGrayCode(int value){
+    int retval = 0;
+    for (retval=0;value;){
+        retval^=value;
+        value=value>>1;
+    }
+    return retval;
+}
+
+/* convert step to milimeters */
+double PciDevFunctions::stepTomm(long int value) {
+    return  (double)value/coeff_step_on_mm +
+            (double)zero_position/coeff_step_on_mm;
+}
+
+void PciDevFunctions::setZeroPoint(long int value) {
+    zero_position = value;
+    return;
+}
+
+/* **************** private functions **************** */
+
 unsigned char PciDevFunctions::read8CS0(int fd, long offset){
     unsigned char byte = 0x00;
     ioctl(fd,CS0_SET_ADDR,offset);

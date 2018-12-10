@@ -134,7 +134,6 @@ void TwoChannelAdapter::init_device()
 	/*----- PROTECTED REGION ID(TwoChannelAdapter::init_device_before) ENABLED START -----*/
 	
 	//	Initialization before get_device_property() call
-	pciDev = new PciDevFunctions(device_port.c_str());
 	
 	/*----- PROTECTED REGION END -----*/	//	TwoChannelAdapter::init_device_before
 	
@@ -146,7 +145,16 @@ void TwoChannelAdapter::init_device()
 	/*----- PROTECTED REGION ID(TwoChannelAdapter::init_device) ENABLED START -----*/
 	
 	//	Initialize device
-	
+	pciDev = new PciDevFunctions(port_path.c_str(),channel);
+	if(pciDev->getStatus() & STATUS_ERROR_OPEN_FILE){
+		device_status = "can not open device "+port_path+"!\n";
+		device_state = Tango::DevState::FAULT;
+		return;
+	}
+	device_state = Tango::DevState::ON;
+	pciDev->setFrequency(frequency);
+	pciDev->initMove();
+
 	/*----- PROTECTED REGION END -----*/	//	TwoChannelAdapter::init_device
 }
 
@@ -168,7 +176,7 @@ void TwoChannelAdapter::get_device_property()
 	//	Read device properties from database.
 	Tango::DbData	dev_prop;
 	dev_prop.push_back(Tango::DbDatum("channel"));
-	dev_prop.push_back(Tango::DbDatum("device_port"));
+	dev_prop.push_back(Tango::DbDatum("port_path"));
 	dev_prop.push_back(Tango::DbDatum("frequency"));
 
 	//	is there at least one property to be read ?
@@ -195,16 +203,16 @@ void TwoChannelAdapter::get_device_property()
 		//	And try to extract channel value from database
 		if (dev_prop[i].is_empty()==false)	dev_prop[i]  >>  channel;
 
-		//	Try to initialize device_port from class property
+		//	Try to initialize port_path from class property
 		cl_prop = ds_class->get_class_property(dev_prop[++i].name);
-		if (cl_prop.is_empty()==false)	cl_prop  >>  device_port;
+		if (cl_prop.is_empty()==false)	cl_prop  >>  port_path;
 		else {
-			//	Try to initialize device_port from default device value
+			//	Try to initialize port_path from default device value
 			def_prop = ds_class->get_default_device_property(dev_prop[i].name);
-			if (def_prop.is_empty()==false)	def_prop  >>  device_port;
+			if (def_prop.is_empty()==false)	def_prop  >>  port_path;
 		}
-		//	And try to extract device_port value from database
-		if (dev_prop[i].is_empty()==false)	dev_prop[i]  >>  device_port;
+		//	And try to extract port_path value from database
+		if (dev_prop[i].is_empty()==false)	dev_prop[i]  >>  port_path;
 
 		//	Try to initialize frequency from class property
 		cl_prop = ds_class->get_class_property(dev_prop[++i].name);
@@ -287,8 +295,9 @@ void TwoChannelAdapter::read_Position(Tango::Attribute &attr)
 	DEBUG_STREAM << "TwoChannelAdapter::read_Position(Tango::Attribute &attr) entering... " << endl;
 	/*----- PROTECTED REGION ID(TwoChannelAdapter::read_Position) ENABLED START -----*/
 
+    *attr_Position_read = pciDev->stepTomm(pciDev->fromGrayCode(pciDev->getEncoder()));
 
-	//	Set the attribute value
+    //	Set the attribute value
 	attr.set_value(attr_Position_read);
 	
 	/*----- PROTECTED REGION END -----*/	//	TwoChannelAdapter::read_Position
@@ -343,8 +352,12 @@ void TwoChannelAdapter::stop_move()
 	DEBUG_STREAM << "TwoChannelAdapter::StopMove()  - " << device_name << endl;
 	/*----- PROTECTED REGION ID(TwoChannelAdapter::stop_move) ENABLED START -----*/
 	
-	//	Add your own code
-	
+	pciDev->stopMotion();
+	if(pciDev->getStatus() & STATUS_STOP_MOTION){
+		device_status = "motion stopped!";
+		device_state = Tango::DevState::OFF;
+	}
+
 	/*----- PROTECTED REGION END -----*/	//	TwoChannelAdapter::stop_move
 }
 //--------------------------------------------------------
@@ -375,7 +388,7 @@ void TwoChannelAdapter::calibrate()
 	DEBUG_STREAM << "TwoChannelAdapter::Calibrate()  - " << device_name << endl;
 	/*----- PROTECTED REGION ID(TwoChannelAdapter::calibrate) ENABLED START -----*/
 	
-	//	Add your own code
+	pciDev->setZeroPoint(3);                                        // find step value, where the end is true
 	
 	/*----- PROTECTED REGION END -----*/	//	TwoChannelAdapter::calibrate
 }

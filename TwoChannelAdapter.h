@@ -66,8 +66,8 @@ public:
 public:
 	//	channel:	0 channel or 1 channel
 	Tango::DevShort	channel;
-	//	device_port:	
-	string	device_port;
+	//	port_path:	
+	string	port_path;
 	//	frequency:	Frequency in Hz
 	Tango::DevDouble	frequency;
 

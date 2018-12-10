@@ -1,5 +1,5 @@
 //
-// Created by kirill on 10.12.18.
+// Created by Kirill Pshenichnyi on 10.12.18.
 //
 
 #ifndef TWOCHANNELADAPTER_PCIDEVFUNCTIONS_H
@@ -23,8 +23,13 @@
 class PciDevFunctions {
 private:
     int file_descriptor;
-    int channel;
+    int g_channel;
+    double frequency;
     unsigned int status;
+
+    int zero_position = 0;
+    double coeff_step_on_mm = 1.1;
+
 
     /* functions for read data from the chip select 0 (2 bar from PCI space) */
     unsigned char read8CS0(int fd, long offset);                                        // read 1 byte
@@ -52,11 +57,16 @@ private:
     // -- numbit - number of bit
 
 public:
-    PciDevFunctions(const char *filename);
+    PciDevFunctions(const char *filename, int channel);
     unsigned int getStatus(void);
+    void setFrequency(double freq);
     void initMove(void);
-
-    void stopMotion(int channel);
+    void startMove(int count_step, bool direction);
+    void stopMotion(void);
+    int getEncoder(void);
+    int fromGrayCode(int value);
+    double stepTomm(long int value);
+    void setZeroPoint(long int value);
 
 };
 

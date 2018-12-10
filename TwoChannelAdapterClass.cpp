@@ -285,7 +285,7 @@ void TwoChannelAdapterClass::set_default_property()
 	}
 	else
 		add_wiz_dev_prop(prop_name, prop_desc);
-	prop_name = "device_port";
+	prop_name = "port_path";
 	prop_desc = "";
 	prop_def  = "/dev/plxdev0";
 	vect_data.clear();
