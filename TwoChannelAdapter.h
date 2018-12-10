@@ -34,6 +34,7 @@
 #define TwoChannelAdapter_H
 
 #include <tango.h>
+#include <pcidevfunctions.h>
 
 
 /*----- PROTECTED REGION END -----*/	//	TwoChannelAdapter.h
@@ -56,7 +57,8 @@ class TwoChannelAdapter : public TANGO_BASE_CLASS
 
 /*----- PROTECTED REGION ID(TwoChannelAdapter::Data Members) ENABLED START -----*/
 
-//	Add your own data members
+public:
+	PciDevFunctions *pciDev;
 
 /*----- PROTECTED REGION END -----*/	//	TwoChannelAdapter::Data Members
 
@@ -64,6 +66,10 @@ class TwoChannelAdapter : public TANGO_BASE_CLASS
 public:
 	//	channel:	0 channel or 1 channel
 	Tango::DevShort	channel;
+	//	device_port:	
+	string	device_port;
+	//	frequency:	Frequency in Hz
+	Tango::DevDouble	frequency;
 
 //	Attribute data members
 public:
@@ -175,6 +181,13 @@ public:
 	 */
 	virtual void rest_motor();
 	virtual bool is_RestMotor_allowed(const CORBA::Any &any);
+	/**
+	 *	Command Calibrate related method
+	 *	Description: 
+	 *
+	 */
+	virtual void calibrate();
+	virtual bool is_Calibrate_allowed(const CORBA::Any &any);
 
 
 	//--------------------------------------------------------

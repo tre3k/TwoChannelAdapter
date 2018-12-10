@@ -184,6 +184,24 @@ CORBA::Any *RestMotorClass::execute(Tango::DeviceImpl *device, TANGO_UNUSED(cons
 	return new CORBA::Any();
 }
 
+//--------------------------------------------------------
+/**
+ * method : 		CalibrateClass::execute()
+ * description : 	method to trigger the execution of the command.
+ *
+ * @param	device	The device on which the command must be executed
+ * @param	in_any	The command input data
+ *
+ *	returns The command output data (packed in the Any object)
+ */
+//--------------------------------------------------------
+CORBA::Any *CalibrateClass::execute(Tango::DeviceImpl *device, TANGO_UNUSED(const CORBA::Any &in_any))
+{
+	cout2 << "CalibrateClass::execute(): arrived" << endl;
+	((static_cast<TwoChannelAdapter *>(device))->calibrate());
+	return new CORBA::Any();
+}
+
 
 //===================================================================
 //	Properties management
@@ -258,6 +276,34 @@ void TwoChannelAdapterClass::set_default_property()
 	prop_def  = "0";
 	vect_data.clear();
 	vect_data.push_back("0");
+	if (prop_def.length()>0)
+	{
+		Tango::DbDatum	data(prop_name);
+		data << vect_data ;
+		dev_def_prop.push_back(data);
+		add_wiz_dev_prop(prop_name, prop_desc,  prop_def);
+	}
+	else
+		add_wiz_dev_prop(prop_name, prop_desc);
+	prop_name = "device_port";
+	prop_desc = "";
+	prop_def  = "/dev/plxdev0";
+	vect_data.clear();
+	vect_data.push_back("/dev/plxdev0");
+	if (prop_def.length()>0)
+	{
+		Tango::DbDatum	data(prop_name);
+		data << vect_data ;
+		dev_def_prop.push_back(data);
+		add_wiz_dev_prop(prop_name, prop_desc,  prop_def);
+	}
+	else
+		add_wiz_dev_prop(prop_name, prop_desc);
+	prop_name = "frequency";
+	prop_desc = "Frequency in Hz";
+	prop_def  = "100";
+	vect_data.clear();
+	vect_data.push_back("100");
 	if (prop_def.length()>0)
 	{
 		Tango::DbDatum	data(prop_name);
@@ -459,6 +505,15 @@ void TwoChannelAdapterClass::command_factory()
 			"",
 			Tango::OPERATOR);
 	command_list.push_back(pRestMotorCmd);
+
+	//	Command Calibrate
+	CalibrateClass	*pCalibrateCmd =
+		new CalibrateClass("Calibrate",
+			Tango::DEV_VOID, Tango::DEV_VOID,
+			"",
+			"",
+			Tango::OPERATOR);
+	command_list.push_back(pCalibrateCmd);
 
 	/*----- PROTECTED REGION ID(TwoChannelAdapterClass::command_factory_after) ENABLED START -----*/
 	

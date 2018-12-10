@@ -103,6 +103,21 @@ bool TwoChannelAdapter::is_RestMotor_allowed(TANGO_UNUSED(const CORBA::Any &any)
 	return true;
 }
 
+//--------------------------------------------------------
+/**
+ *	Method      : TwoChannelAdapter::is_Calibrate_allowed()
+ *	Description : Execution allowed for Calibrate attribute
+ */
+//--------------------------------------------------------
+bool TwoChannelAdapter::is_Calibrate_allowed(TANGO_UNUSED(const CORBA::Any &any))
+{
+	//	Not any excluded states for Calibrate command.
+	/*----- PROTECTED REGION ID(TwoChannelAdapter::CalibrateStateAllowed) ENABLED START -----*/
+	
+	/*----- PROTECTED REGION END -----*/	//	TwoChannelAdapter::CalibrateStateAllowed
+	return true;
+}
+
 
 /*----- PROTECTED REGION ID(TwoChannelAdapter::TwoChannelAdapterStateAllowed.AdditionalMethods) ENABLED START -----*/
 

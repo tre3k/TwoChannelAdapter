@@ -54,6 +54,7 @@
 //  Status        |  Inherited (no method)
 //  StopMove      |  stop_move
 //  RestMotor     |  rest_motor
+//  Calibrate     |  calibrate
 //================================================================
 
 //================================================================
@@ -115,7 +116,7 @@ void TwoChannelAdapter::delete_device()
 	DEBUG_STREAM << "TwoChannelAdapter::delete_device() " << device_name << endl;
 	/*----- PROTECTED REGION ID(TwoChannelAdapter::delete_device) ENABLED START -----*/
 	
-	//	Delete device allocated objects
+	delete pciDev;
 	
 	/*----- PROTECTED REGION END -----*/	//	TwoChannelAdapter::delete_device
 	delete[] attr_Position_read;
@@ -133,6 +134,7 @@ void TwoChannelAdapter::init_device()
 	/*----- PROTECTED REGION ID(TwoChannelAdapter::init_device_before) ENABLED START -----*/
 	
 	//	Initialization before get_device_property() call
+	pciDev = new PciDevFunctions(device_port.c_str());
 	
 	/*----- PROTECTED REGION END -----*/	//	TwoChannelAdapter::init_device_before
 	
@@ -166,6 +168,8 @@ void TwoChannelAdapter::get_device_property()
 	//	Read device properties from database.
 	Tango::DbData	dev_prop;
 	dev_prop.push_back(Tango::DbDatum("channel"));
+	dev_prop.push_back(Tango::DbDatum("device_port"));
+	dev_prop.push_back(Tango::DbDatum("frequency"));
 
 	//	is there at least one property to be read ?
 	if (dev_prop.size()>0)
@@ -190,6 +194,28 @@ void TwoChannelAdapter::get_device_property()
 		}
 		//	And try to extract channel value from database
 		if (dev_prop[i].is_empty()==false)	dev_prop[i]  >>  channel;
+
+		//	Try to initialize device_port from class property
+		cl_prop = ds_class->get_class_property(dev_prop[++i].name);
+		if (cl_prop.is_empty()==false)	cl_prop  >>  device_port;
+		else {
+			//	Try to initialize device_port from default device value
+			def_prop = ds_class->get_default_device_property(dev_prop[i].name);
+			if (def_prop.is_empty()==false)	def_prop  >>  device_port;
+		}
+		//	And try to extract device_port value from database
+		if (dev_prop[i].is_empty()==false)	dev_prop[i]  >>  device_port;
+
+		//	Try to initialize frequency from class property
+		cl_prop = ds_class->get_class_property(dev_prop[++i].name);
+		if (cl_prop.is_empty()==false)	cl_prop  >>  frequency;
+		else {
+			//	Try to initialize frequency from default device value
+			def_prop = ds_class->get_default_device_property(dev_prop[i].name);
+			if (def_prop.is_empty()==false)	def_prop  >>  frequency;
+		}
+		//	And try to extract frequency value from database
+		if (dev_prop[i].is_empty()==false)	dev_prop[i]  >>  frequency;
 
 	}
 
@@ -260,6 +286,8 @@ void TwoChannelAdapter::read_Position(Tango::Attribute &attr)
 {
 	DEBUG_STREAM << "TwoChannelAdapter::read_Position(Tango::Attribute &attr) entering... " << endl;
 	/*----- PROTECTED REGION ID(TwoChannelAdapter::read_Position) ENABLED START -----*/
+
+
 	//	Set the attribute value
 	attr.set_value(attr_Position_read);
 	
@@ -281,7 +309,8 @@ void TwoChannelAdapter::write_Position(Tango::WAttribute &attr)
 	Tango::DevDouble	w_val;
 	attr.get_write_value(w_val);
 	/*----- PROTECTED REGION ID(TwoChannelAdapter::write_Position) ENABLED START -----*/
-	
+
+	// Convert from mm to step
 	
 	/*----- PROTECTED REGION END -----*/	//	TwoChannelAdapter::write_Position
 }
@@ -333,6 +362,22 @@ void TwoChannelAdapter::rest_motor()
 	//	Add your own code
 	
 	/*----- PROTECTED REGION END -----*/	//	TwoChannelAdapter::rest_motor
+}
+//--------------------------------------------------------
+/**
+ *	Command Calibrate related method
+ *	Description: 
+ *
+ */
+//--------------------------------------------------------
+void TwoChannelAdapter::calibrate()
+{
+	DEBUG_STREAM << "TwoChannelAdapter::Calibrate()  - " << device_name << endl;
+	/*----- PROTECTED REGION ID(TwoChannelAdapter::calibrate) ENABLED START -----*/
+	
+	//	Add your own code
+	
+	/*----- PROTECTED REGION END -----*/	//	TwoChannelAdapter::calibrate
 }
 //--------------------------------------------------------
 /**

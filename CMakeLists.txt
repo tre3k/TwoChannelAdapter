@@ -15,6 +15,7 @@ find_library(OMNITHREAD_LIB omnithread)
 find_library(LOG4TANGO_LIB log4tango)
 find_library(ZMQ_LIB zmq)
 
+set(CMAKE_CXX_FLAGS -w)
 
 add_executable(TwoChannelAdapter    main.cpp
                                     TwoChannelAdapterStateMachine.cpp

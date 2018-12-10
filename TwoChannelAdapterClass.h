@@ -119,6 +119,29 @@ public:
 	{return (static_cast<TwoChannelAdapter *>(dev))->is_RestMotor_allowed(any);}
 };
 
+//	Command Calibrate class definition
+class CalibrateClass : public Tango::Command
+{
+public:
+	CalibrateClass(const char   *name,
+	               Tango::CmdArgType in,
+				   Tango::CmdArgType out,
+				   const char        *in_desc,
+				   const char        *out_desc,
+				   Tango::DispLevel  level)
+	:Command(name,in,out,in_desc,out_desc, level)	{};
+
+	CalibrateClass(const char   *name,
+	               Tango::CmdArgType in,
+				   Tango::CmdArgType out)
+	:Command(name,in,out)	{};
+	~CalibrateClass() {};
+	
+	virtual CORBA::Any *execute (Tango::DeviceImpl *dev, const CORBA::Any &any);
+	virtual bool is_allowed (Tango::DeviceImpl *dev, const CORBA::Any &any)
+	{return (static_cast<TwoChannelAdapter *>(dev))->is_Calibrate_allowed(any);}
+};
+
 
 /**
  *	The TwoChannelAdapterClass singleton definition
