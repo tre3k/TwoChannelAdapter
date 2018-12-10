@@ -15,15 +15,13 @@ find_library(OMNITHREAD_LIB omnithread)
 find_library(LOG4TANGO_LIB log4tango)
 find_library(ZMQ_LIB zmq)
 
-find_library(LD_LIB ld)
-find_library(PTHREAD_LIB pthread)
-find_library(STDCPP_LIB stdc++)
 
 add_executable(TwoChannelAdapter    main.cpp
                                     TwoChannelAdapterStateMachine.cpp
-                                    TwoChannelAdapterClass.cpp
-                                    TwoChannelAdapter.cpp
-                                    ClassFactory.cpp)
+                                    TwoChannelAdapterClass.cpp TwoChannelAdapterClass.h
+                                    TwoChannelAdapter.cpp TwoChannelAdapter.h
+                                    ClassFactory.cpp
+                                    pcidevfunctions.cpp pcidevfunctions.h)
 
 target_link_libraries(TwoChannelAdapter ${TANGO_LIB}
                                         ${OMNIDYNAMIC4_LIB}
