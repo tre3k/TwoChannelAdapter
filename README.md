@@ -4,17 +4,19 @@ The tango-CS server for the "2 channel adapter" PNPI custom device.
 
 Commands:
 -----------------------------------
-MotionLeft(int long step_count) <br>
-MotionRight(int long step_count) <br>
-Stop()      -- turn off power <br>
+StopMove()      -- stop motion and turn off power <br>
+Calibrate()     -- find zero position <br>
 
 Attributes:
 -----------------------------------
-EncoderValue - read the value from encoder evry 500ms 
+Position - read the value from encoder and write - set position 
 
 Install:
 -----------------------------------
-Just run "make". For this need the tango-cs library and C++ include
+1. mkdir build <br>
+2. cd build <br>
+3. cmake .. <br>
+4. make <br>
 
 Regestration in jive (get started):
 -----------------------------------
