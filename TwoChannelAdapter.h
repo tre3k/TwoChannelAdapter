@@ -186,12 +186,12 @@ public:
 	virtual void stop_move();
 	virtual bool is_StopMove_allowed(const CORBA::Any &any);
 	/**
-	 *	Command RestMotor related method
+	 *	Command ResetMotor related method
 	 *	Description: 
 	 *
 	 */
-	virtual void rest_motor();
-	virtual bool is_RestMotor_allowed(const CORBA::Any &any);
+	virtual void reset_motor();
+	virtual bool is_ResetMotor_allowed(const CORBA::Any &any);
 	/**
 	 *	Command Calibrate related method
 	 *	Description: 

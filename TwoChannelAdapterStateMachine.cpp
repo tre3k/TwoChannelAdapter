@@ -110,16 +110,16 @@ bool TwoChannelAdapter::is_StopMove_allowed(TANGO_UNUSED(const CORBA::Any &any))
 
 //--------------------------------------------------------
 /**
- *	Method      : TwoChannelAdapter::is_RestMotor_allowed()
- *	Description : Execution allowed for RestMotor attribute
+ *	Method      : TwoChannelAdapter::is_ResetMotor_allowed()
+ *	Description : Execution allowed for ResetMotor attribute
  */
 //--------------------------------------------------------
-bool TwoChannelAdapter::is_RestMotor_allowed(TANGO_UNUSED(const CORBA::Any &any))
+bool TwoChannelAdapter::is_ResetMotor_allowed(TANGO_UNUSED(const CORBA::Any &any))
 {
-	//	Not any excluded states for RestMotor command.
-	/*----- PROTECTED REGION ID(TwoChannelAdapter::RestMotorStateAllowed) ENABLED START -----*/
+	//	Not any excluded states for ResetMotor command.
+	/*----- PROTECTED REGION ID(TwoChannelAdapter::ResetMotorStateAllowed) ENABLED START -----*/
 	
-	/*----- PROTECTED REGION END -----*/	//	TwoChannelAdapter::RestMotorStateAllowed
+	/*----- PROTECTED REGION END -----*/	//	TwoChannelAdapter::ResetMotorStateAllowed
 	return true;
 }
 

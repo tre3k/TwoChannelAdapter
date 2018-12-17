@@ -53,10 +53,8 @@ void PciDevFunctions::initMove() {
 }
 
 void PciDevFunctions::startMove(int count_step,bool direction){
-
     bool enable_turnd = true;
     bool enable_end = true;
-
 
     setBitCS0(file_descriptor,0+g_channel*16,0);                        //REGISTER_CONTROL set 0 bit for enable step frequency
     unsetBitCS0(file_descriptor,0+g_channel*16,2);                      // enable step counter

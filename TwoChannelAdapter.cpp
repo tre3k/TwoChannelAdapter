@@ -53,7 +53,7 @@
 //  State         |  Inherited (no method)
 //  Status        |  Inherited (no method)
 //  StopMove      |  stop_move
-//  RestMotor     |  rest_motor
+//  ResetMotor    |  reset_motor
 //  Calibrate     |  calibrate
 //================================================================
 
@@ -403,19 +403,19 @@ void TwoChannelAdapter::stop_move()
 }
 //--------------------------------------------------------
 /**
- *	Command RestMotor related method
+ *	Command ResetMotor related method
  *	Description: 
  *
  */
 //--------------------------------------------------------
-void TwoChannelAdapter::rest_motor()
+void TwoChannelAdapter::reset_motor()
 {
-	DEBUG_STREAM << "TwoChannelAdapter::RestMotor()  - " << device_name << endl;
-	/*----- PROTECTED REGION ID(TwoChannelAdapter::rest_motor) ENABLED START -----*/
+	DEBUG_STREAM << "TwoChannelAdapter::ResetMotor()  - " << device_name << endl;
+	/*----- PROTECTED REGION ID(TwoChannelAdapter::reset_motor) ENABLED START -----*/
 	
 	//	Add your own code
 	
-	/*----- PROTECTED REGION END -----*/	//	TwoChannelAdapter::rest_motor
+	/*----- PROTECTED REGION END -----*/	//	TwoChannelAdapter::reset_motor
 }
 //--------------------------------------------------------
 /**

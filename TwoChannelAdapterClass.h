@@ -111,11 +111,11 @@ public:
 	{return (static_cast<TwoChannelAdapter *>(dev))->is_StopMove_allowed(any);}
 };
 
-//	Command RestMotor class definition
-class RestMotorClass : public Tango::Command
+//	Command ResetMotor class definition
+class ResetMotorClass : public Tango::Command
 {
 public:
-	RestMotorClass(const char   *name,
+	ResetMotorClass(const char   *name,
 	               Tango::CmdArgType in,
 				   Tango::CmdArgType out,
 				   const char        *in_desc,
@@ -123,15 +123,15 @@ public:
 				   Tango::DispLevel  level)
 	:Command(name,in,out,in_desc,out_desc, level)	{};
 
-	RestMotorClass(const char   *name,
+	ResetMotorClass(const char   *name,
 	               Tango::CmdArgType in,
 				   Tango::CmdArgType out)
 	:Command(name,in,out)	{};
-	~RestMotorClass() {};
+	~ResetMotorClass() {};
 	
 	virtual CORBA::Any *execute (Tango::DeviceImpl *dev, const CORBA::Any &any);
 	virtual bool is_allowed (Tango::DeviceImpl *dev, const CORBA::Any &any)
-	{return (static_cast<TwoChannelAdapter *>(dev))->is_RestMotor_allowed(any);}
+	{return (static_cast<TwoChannelAdapter *>(dev))->is_ResetMotor_allowed(any);}
 };
 
 //	Command Calibrate class definition
