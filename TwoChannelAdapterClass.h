@@ -69,6 +69,21 @@ public:
 		{return (static_cast<TwoChannelAdapter *>(dev))->is_Position_allowed(ty);}
 };
 
+//	Attribute ZeroPosition class definition
+class ZeroPositionAttrib: public Tango::Attr
+{
+public:
+	ZeroPositionAttrib():Attr("ZeroPosition",
+			Tango::DEV_DOUBLE, Tango::READ_WRITE) {};
+	~ZeroPositionAttrib() {};
+	virtual void read(Tango::DeviceImpl *dev,Tango::Attribute &att)
+		{(static_cast<TwoChannelAdapter *>(dev))->read_ZeroPosition(att);}
+	virtual void write(Tango::DeviceImpl *dev,Tango::WAttribute &att)
+		{(static_cast<TwoChannelAdapter *>(dev))->write_ZeroPosition(att);}
+	virtual bool is_allowed(Tango::DeviceImpl *dev,Tango::AttReqType ty)
+		{return (static_cast<TwoChannelAdapter *>(dev))->is_ZeroPosition_allowed(ty);}
+};
+
 
 //=========================================
 //	Define classes for commands

@@ -68,6 +68,26 @@ bool TwoChannelAdapter::is_Position_allowed(TANGO_UNUSED(Tango::AttReqType type)
 	return true;
 }
 
+//--------------------------------------------------------
+/**
+ *	Method      : TwoChannelAdapter::is_ZeroPosition_allowed()
+ *	Description : Execution allowed for ZeroPosition attribute
+ */
+//--------------------------------------------------------
+bool TwoChannelAdapter::is_ZeroPosition_allowed(TANGO_UNUSED(Tango::AttReqType type))
+{
+	//	Not any excluded states for ZeroPosition attribute in Write access.
+	/*----- PROTECTED REGION ID(TwoChannelAdapter::ZeroPositionStateAllowed_WRITE) ENABLED START -----*/
+	
+	/*----- PROTECTED REGION END -----*/	//	TwoChannelAdapter::ZeroPositionStateAllowed_WRITE
+
+	//	Not any excluded states for ZeroPosition attribute in read access.
+	/*----- PROTECTED REGION ID(TwoChannelAdapter::ZeroPositionStateAllowed_READ) ENABLED START -----*/
+	
+	/*----- PROTECTED REGION END -----*/	//	TwoChannelAdapter::ZeroPositionStateAllowed_READ
+	return true;
+}
+
 
 //=================================================
 //		Commands Allowed Methods

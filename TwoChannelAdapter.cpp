@@ -58,9 +58,10 @@
 //================================================================
 
 //================================================================
-//  Attributes managed is:
+//  Attributes managed are:
 //================================================================
-//  Position  |  Tango::DevDouble	Scalar
+//  Position      |  Tango::DevDouble	Scalar
+//  ZeroPosition  |  Tango::DevDouble	Scalar
 //================================================================
 
 namespace TwoChannelAdapter_ns
@@ -120,6 +121,7 @@ void TwoChannelAdapter::delete_device()
 	
 	/*----- PROTECTED REGION END -----*/	//	TwoChannelAdapter::delete_device
 	delete[] attr_Position_read;
+	delete[] attr_ZeroPosition_read;
 }
 
 //--------------------------------------------------------
@@ -142,6 +144,7 @@ void TwoChannelAdapter::init_device()
 	get_device_property();
 	
 	attr_Position_read = new Tango::DevDouble[1];
+	attr_ZeroPosition_read = new Tango::DevDouble[1];
 	/*----- PROTECTED REGION ID(TwoChannelAdapter::init_device) ENABLED START -----*/
 	
 	//	Initialize device
@@ -322,6 +325,44 @@ void TwoChannelAdapter::write_Position(Tango::WAttribute &attr)
 	// Convert from mm to step
 	
 	/*----- PROTECTED REGION END -----*/	//	TwoChannelAdapter::write_Position
+}
+//--------------------------------------------------------
+/**
+ *	Read attribute ZeroPosition related method
+ *	Description: 
+ *
+ *	Data type:	Tango::DevDouble
+ *	Attr type:	Scalar
+ */
+//--------------------------------------------------------
+void TwoChannelAdapter::read_ZeroPosition(Tango::Attribute &attr)
+{
+	DEBUG_STREAM << "TwoChannelAdapter::read_ZeroPosition(Tango::Attribute &attr) entering... " << endl;
+	/*----- PROTECTED REGION ID(TwoChannelAdapter::read_ZeroPosition) ENABLED START -----*/
+	//	Set the attribute value
+	attr.set_value(attr_ZeroPosition_read);
+	
+	/*----- PROTECTED REGION END -----*/	//	TwoChannelAdapter::read_ZeroPosition
+}
+//--------------------------------------------------------
+/**
+ *	Write attribute ZeroPosition related method
+ *	Description: 
+ *
+ *	Data type:	Tango::DevDouble
+ *	Attr type:	Scalar
+ */
+//--------------------------------------------------------
+void TwoChannelAdapter::write_ZeroPosition(Tango::WAttribute &attr)
+{
+	DEBUG_STREAM << "TwoChannelAdapter::write_ZeroPosition(Tango::WAttribute &attr) entering... " << endl;
+	//	Retrieve write value
+	Tango::DevDouble	w_val;
+	attr.get_write_value(w_val);
+	/*----- PROTECTED REGION ID(TwoChannelAdapter::write_ZeroPosition) ENABLED START -----*/
+	
+	
+	/*----- PROTECTED REGION END -----*/	//	TwoChannelAdapter::write_ZeroPosition
 }
 
 //--------------------------------------------------------

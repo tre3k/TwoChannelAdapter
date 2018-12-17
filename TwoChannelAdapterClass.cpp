@@ -443,6 +443,30 @@ void TwoChannelAdapterClass::attribute_factory(vector<Tango::Attr *> &att_list)
 	//	Not Memorized
 	att_list.push_back(position);
 
+	//	Attribute : ZeroPosition
+	ZeroPositionAttrib	*zeroposition = new ZeroPositionAttrib();
+	Tango::UserDefaultAttrProp	zeroposition_prop;
+	//	description	not set for ZeroPosition
+	//	label	not set for ZeroPosition
+	//	unit	not set for ZeroPosition
+	//	standard_unit	not set for ZeroPosition
+	//	display_unit	not set for ZeroPosition
+	//	format	not set for ZeroPosition
+	//	max_value	not set for ZeroPosition
+	//	min_value	not set for ZeroPosition
+	//	max_alarm	not set for ZeroPosition
+	//	min_alarm	not set for ZeroPosition
+	//	max_warning	not set for ZeroPosition
+	//	min_warning	not set for ZeroPosition
+	//	delta_t	not set for ZeroPosition
+	//	delta_val	not set for ZeroPosition
+	
+	zeroposition->set_default_properties(zeroposition_prop);
+	//	Not Polled
+	zeroposition->set_disp_level(Tango::OPERATOR);
+	//	Not Memorized
+	att_list.push_back(zeroposition);
+
 
 	//	Create a list of static attributes
 	create_static_attribute_list(get_class_attr()->get_attr_list());

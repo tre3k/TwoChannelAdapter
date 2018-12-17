@@ -74,6 +74,7 @@ public:
 //	Attribute data members
 public:
 	Tango::DevDouble	*attr_Position_read;
+	Tango::DevDouble	*attr_ZeroPosition_read;
 
 //	Constructors and destructors
 public:
@@ -152,6 +153,16 @@ public:
 	virtual void read_Position(Tango::Attribute &attr);
 	virtual void write_Position(Tango::WAttribute &attr);
 	virtual bool is_Position_allowed(Tango::AttReqType type);
+/**
+ *	Attribute ZeroPosition related methods
+ *	Description: 
+ *
+ *	Data type:	Tango::DevDouble
+ *	Attr type:	Scalar
+ */
+	virtual void read_ZeroPosition(Tango::Attribute &attr);
+	virtual void write_ZeroPosition(Tango::WAttribute &attr);
+	virtual bool is_ZeroPosition_allowed(Tango::AttReqType type);
 
 
 	//--------------------------------------------------------
