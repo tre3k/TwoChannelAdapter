@@ -193,12 +193,21 @@ public:
 	virtual void reset_motor();
 	virtual bool is_ResetMotor_allowed(const CORBA::Any &any);
 	/**
-	 *	Command Calibrate related method
+	 *	Command MoveToLeftSteps related method
 	 *	Description: 
 	 *
+	 *	@param argin 
 	 */
-	virtual void calibrate();
-	virtual bool is_Calibrate_allowed(const CORBA::Any &any);
+	virtual void move_to_left_steps(Tango::DevLong argin);
+	virtual bool is_MoveToLeftSteps_allowed(const CORBA::Any &any);
+	/**
+	 *	Command MoveToRightSteps related method
+	 *	Description: 
+	 *
+	 *	@param argin 
+	 */
+	virtual void move_to_right_steps(Tango::DevLong argin);
+	virtual bool is_MoveToRightSteps_allowed(const CORBA::Any &any);
 
 
 	//--------------------------------------------------------

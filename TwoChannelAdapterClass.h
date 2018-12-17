@@ -134,11 +134,11 @@ public:
 	{return (static_cast<TwoChannelAdapter *>(dev))->is_ResetMotor_allowed(any);}
 };
 
-//	Command Calibrate class definition
-class CalibrateClass : public Tango::Command
+//	Command MoveToLeftSteps class definition
+class MoveToLeftStepsClass : public Tango::Command
 {
 public:
-	CalibrateClass(const char   *name,
+	MoveToLeftStepsClass(const char   *name,
 	               Tango::CmdArgType in,
 				   Tango::CmdArgType out,
 				   const char        *in_desc,
@@ -146,15 +146,38 @@ public:
 				   Tango::DispLevel  level)
 	:Command(name,in,out,in_desc,out_desc, level)	{};
 
-	CalibrateClass(const char   *name,
+	MoveToLeftStepsClass(const char   *name,
 	               Tango::CmdArgType in,
 				   Tango::CmdArgType out)
 	:Command(name,in,out)	{};
-	~CalibrateClass() {};
+	~MoveToLeftStepsClass() {};
 	
 	virtual CORBA::Any *execute (Tango::DeviceImpl *dev, const CORBA::Any &any);
 	virtual bool is_allowed (Tango::DeviceImpl *dev, const CORBA::Any &any)
-	{return (static_cast<TwoChannelAdapter *>(dev))->is_Calibrate_allowed(any);}
+	{return (static_cast<TwoChannelAdapter *>(dev))->is_MoveToLeftSteps_allowed(any);}
+};
+
+//	Command MoveToRightSteps class definition
+class MoveToRightStepsClass : public Tango::Command
+{
+public:
+	MoveToRightStepsClass(const char   *name,
+	               Tango::CmdArgType in,
+				   Tango::CmdArgType out,
+				   const char        *in_desc,
+				   const char        *out_desc,
+				   Tango::DispLevel  level)
+	:Command(name,in,out,in_desc,out_desc, level)	{};
+
+	MoveToRightStepsClass(const char   *name,
+	               Tango::CmdArgType in,
+				   Tango::CmdArgType out)
+	:Command(name,in,out)	{};
+	~MoveToRightStepsClass() {};
+	
+	virtual CORBA::Any *execute (Tango::DeviceImpl *dev, const CORBA::Any &any);
+	virtual bool is_allowed (Tango::DeviceImpl *dev, const CORBA::Any &any)
+	{return (static_cast<TwoChannelAdapter *>(dev))->is_MoveToRightSteps_allowed(any);}
 };
 
 

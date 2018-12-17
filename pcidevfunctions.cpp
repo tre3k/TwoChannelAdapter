@@ -120,14 +120,18 @@ int PciDevFunctions::fromGrayCode(int value){
 }
 
 /* convert step to milimeters */
-double PciDevFunctions::stepTomm(long int value) {
-    return  (double)value/coeff_step_on_mm +
-            (double)zero_position/coeff_step_on_mm;
+double PciDevFunctions::encoderTomm(long int value) {
+    return  (double)value/coeff_step_on_mm + zero_position;
 }
 
-void PciDevFunctions::setZeroPoint(long int value) {
+void PciDevFunctions::setZeroPoint(double value) {
     zero_position = value;
     return;
+}
+
+
+double PciDevFunctions::getZeroPoint() {
+    return zero_position;
 }
 
 /* **************** private functions **************** */

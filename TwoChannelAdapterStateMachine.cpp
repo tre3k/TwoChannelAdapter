@@ -125,16 +125,31 @@ bool TwoChannelAdapter::is_ResetMotor_allowed(TANGO_UNUSED(const CORBA::Any &any
 
 //--------------------------------------------------------
 /**
- *	Method      : TwoChannelAdapter::is_Calibrate_allowed()
- *	Description : Execution allowed for Calibrate attribute
+ *	Method      : TwoChannelAdapter::is_MoveToLeftSteps_allowed()
+ *	Description : Execution allowed for MoveToLeftSteps attribute
  */
 //--------------------------------------------------------
-bool TwoChannelAdapter::is_Calibrate_allowed(TANGO_UNUSED(const CORBA::Any &any))
+bool TwoChannelAdapter::is_MoveToLeftSteps_allowed(TANGO_UNUSED(const CORBA::Any &any))
 {
-	//	Not any excluded states for Calibrate command.
-	/*----- PROTECTED REGION ID(TwoChannelAdapter::CalibrateStateAllowed) ENABLED START -----*/
+	//	Not any excluded states for MoveToLeftSteps command.
+	/*----- PROTECTED REGION ID(TwoChannelAdapter::MoveToLeftStepsStateAllowed) ENABLED START -----*/
 	
-	/*----- PROTECTED REGION END -----*/	//	TwoChannelAdapter::CalibrateStateAllowed
+	/*----- PROTECTED REGION END -----*/	//	TwoChannelAdapter::MoveToLeftStepsStateAllowed
+	return true;
+}
+
+//--------------------------------------------------------
+/**
+ *	Method      : TwoChannelAdapter::is_MoveToRightSteps_allowed()
+ *	Description : Execution allowed for MoveToRightSteps attribute
+ */
+//--------------------------------------------------------
+bool TwoChannelAdapter::is_MoveToRightSteps_allowed(TANGO_UNUSED(const CORBA::Any &any))
+{
+	//	Not any excluded states for MoveToRightSteps command.
+	/*----- PROTECTED REGION ID(TwoChannelAdapter::MoveToRightStepsStateAllowed) ENABLED START -----*/
+	
+	/*----- PROTECTED REGION END -----*/	//	TwoChannelAdapter::MoveToRightStepsStateAllowed
 	return true;
 }
 

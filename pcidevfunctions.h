@@ -27,7 +27,7 @@ private:
     double frequency;
     unsigned int status;
 
-    int zero_position = 0;
+    double zero_position = 0;                       // in mm
     double coeff_step_on_mm = 1.1;
 
 
@@ -65,8 +65,10 @@ public:
     void stopMotion(void);
     int getEncoder(void);
     int fromGrayCode(int value);
-    double stepTomm(long int value);
-    void setZeroPoint(long int value);
+    double encoderTomm(long int value);
+    void setZeroPoint(double value);
+    double getZeroPoint(void);
+
 
 };
 

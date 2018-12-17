@@ -48,13 +48,14 @@
 //  The following table gives the correspondence
 //  between command and method names.
 //
-//  Command name  |  Method name
+//  Command name      |  Method name
 //================================================================
-//  State         |  Inherited (no method)
-//  Status        |  Inherited (no method)
-//  StopMove      |  stop_move
-//  ResetMotor    |  reset_motor
-//  Calibrate     |  calibrate
+//  State             |  Inherited (no method)
+//  Status            |  Inherited (no method)
+//  StopMove          |  stop_move
+//  ResetMotor        |  reset_motor
+//  MoveToLeftSteps   |  move_to_left_steps
+//  MoveToRightSteps  |  move_to_right_steps
 //================================================================
 
 //================================================================
@@ -298,7 +299,7 @@ void TwoChannelAdapter::read_Position(Tango::Attribute &attr)
 	DEBUG_STREAM << "TwoChannelAdapter::read_Position(Tango::Attribute &attr) entering... " << endl;
 	/*----- PROTECTED REGION ID(TwoChannelAdapter::read_Position) ENABLED START -----*/
 
-    *attr_Position_read = pciDev->stepTomm(pciDev->fromGrayCode(pciDev->getEncoder()));
+    *attr_Position_read = pciDev->encoderTomm(pciDev->fromGrayCode(pciDev->getEncoder()));
 
     //	Set the attribute value
 	attr.set_value(attr_Position_read);
@@ -339,6 +340,9 @@ void TwoChannelAdapter::read_ZeroPosition(Tango::Attribute &attr)
 {
 	DEBUG_STREAM << "TwoChannelAdapter::read_ZeroPosition(Tango::Attribute &attr) entering... " << endl;
 	/*----- PROTECTED REGION ID(TwoChannelAdapter::read_ZeroPosition) ENABLED START -----*/
+
+	*attr_Position_read = pciDev->getZeroPoint();
+
 	//	Set the attribute value
 	attr.set_value(attr_ZeroPosition_read);
 	
@@ -361,7 +365,9 @@ void TwoChannelAdapter::write_ZeroPosition(Tango::WAttribute &attr)
 	attr.get_write_value(w_val);
 	/*----- PROTECTED REGION ID(TwoChannelAdapter::write_ZeroPosition) ENABLED START -----*/
 	
-	
+	pciDev->setZeroPoint(w_val);
+
+
 	/*----- PROTECTED REGION END -----*/	//	TwoChannelAdapter::write_ZeroPosition
 }
 
@@ -419,19 +425,37 @@ void TwoChannelAdapter::reset_motor()
 }
 //--------------------------------------------------------
 /**
- *	Command Calibrate related method
+ *	Command MoveToLeftSteps related method
  *	Description: 
  *
+ *	@param argin 
  */
 //--------------------------------------------------------
-void TwoChannelAdapter::calibrate()
+void TwoChannelAdapter::move_to_left_steps(Tango::DevLong argin)
 {
-	DEBUG_STREAM << "TwoChannelAdapter::Calibrate()  - " << device_name << endl;
-	/*----- PROTECTED REGION ID(TwoChannelAdapter::calibrate) ENABLED START -----*/
+	DEBUG_STREAM << "TwoChannelAdapter::MoveToLeftSteps()  - " << device_name << endl;
+	/*----- PROTECTED REGION ID(TwoChannelAdapter::move_to_left_steps) ENABLED START -----*/
 	
-	pciDev->setZeroPoint(3);                                        // find step value, where the end is true
+	pciDev->startMove(argin,true);
 	
-	/*----- PROTECTED REGION END -----*/	//	TwoChannelAdapter::calibrate
+	/*----- PROTECTED REGION END -----*/	//	TwoChannelAdapter::move_to_left_steps
+}
+//--------------------------------------------------------
+/**
+ *	Command MoveToRightSteps related method
+ *	Description: 
+ *
+ *	@param argin 
+ */
+//--------------------------------------------------------
+void TwoChannelAdapter::move_to_right_steps(Tango::DevLong argin)
+{
+	DEBUG_STREAM << "TwoChannelAdapter::MoveToRightSteps()  - " << device_name << endl;
+	/*----- PROTECTED REGION ID(TwoChannelAdapter::move_to_right_steps) ENABLED START -----*/
+
+	pciDev->startMove(argin,false);
+	
+	/*----- PROTECTED REGION END -----*/	//	TwoChannelAdapter::move_to_right_steps
 }
 //--------------------------------------------------------
 /**
@@ -452,6 +476,21 @@ void TwoChannelAdapter::add_dynamic_commands()
 /*----- PROTECTED REGION ID(TwoChannelAdapter::namespace_ending) ENABLED START -----*/
 
 //	Additional Methods
+// //--------------------------------------------------------
+// /**
+//  *	Command Calibrate related method
+//  *	Description: 
+//  *
+//  */
+// //--------------------------------------------------------
+// void TwoChannelAdapter::calibrate()
+// {
+// 	DEBUG_STREAM << "TwoChannelAdapter::Calibrate()  - " << device_name << endl;
+// 	
+// 	//pciDev->setZeroPoint(3);                                        // find step value, where the end is true
+// 	
+// }
+
 
 /*----- PROTECTED REGION END -----*/	//	TwoChannelAdapter::namespace_ending
 } //	namespace

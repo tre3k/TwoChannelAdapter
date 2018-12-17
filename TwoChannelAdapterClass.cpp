@@ -186,7 +186,7 @@ CORBA::Any *ResetMotorClass::execute(Tango::DeviceImpl *device, TANGO_UNUSED(con
 
 //--------------------------------------------------------
 /**
- * method : 		CalibrateClass::execute()
+ * method : 		MoveToLeftStepsClass::execute()
  * description : 	method to trigger the execution of the command.
  *
  * @param	device	The device on which the command must be executed
@@ -195,10 +195,32 @@ CORBA::Any *ResetMotorClass::execute(Tango::DeviceImpl *device, TANGO_UNUSED(con
  *	returns The command output data (packed in the Any object)
  */
 //--------------------------------------------------------
-CORBA::Any *CalibrateClass::execute(Tango::DeviceImpl *device, TANGO_UNUSED(const CORBA::Any &in_any))
+CORBA::Any *MoveToLeftStepsClass::execute(Tango::DeviceImpl *device, const CORBA::Any &in_any)
 {
-	cout2 << "CalibrateClass::execute(): arrived" << endl;
-	((static_cast<TwoChannelAdapter *>(device))->calibrate());
+	cout2 << "MoveToLeftStepsClass::execute(): arrived" << endl;
+	Tango::DevLong argin;
+	extract(in_any, argin);
+	((static_cast<TwoChannelAdapter *>(device))->move_to_left_steps(argin));
+	return new CORBA::Any();
+}
+
+//--------------------------------------------------------
+/**
+ * method : 		MoveToRightStepsClass::execute()
+ * description : 	method to trigger the execution of the command.
+ *
+ * @param	device	The device on which the command must be executed
+ * @param	in_any	The command input data
+ *
+ *	returns The command output data (packed in the Any object)
+ */
+//--------------------------------------------------------
+CORBA::Any *MoveToRightStepsClass::execute(Tango::DeviceImpl *device, const CORBA::Any &in_any)
+{
+	cout2 << "MoveToRightStepsClass::execute(): arrived" << endl;
+	Tango::DevLong argin;
+	extract(in_any, argin);
+	((static_cast<TwoChannelAdapter *>(device))->move_to_right_steps(argin));
 	return new CORBA::Any();
 }
 
@@ -530,14 +552,23 @@ void TwoChannelAdapterClass::command_factory()
 			Tango::OPERATOR);
 	command_list.push_back(pResetMotorCmd);
 
-	//	Command Calibrate
-	CalibrateClass	*pCalibrateCmd =
-		new CalibrateClass("Calibrate",
-			Tango::DEV_VOID, Tango::DEV_VOID,
+	//	Command MoveToLeftSteps
+	MoveToLeftStepsClass	*pMoveToLeftStepsCmd =
+		new MoveToLeftStepsClass("MoveToLeftSteps",
+			Tango::DEV_LONG, Tango::DEV_VOID,
 			"",
 			"",
 			Tango::OPERATOR);
-	command_list.push_back(pCalibrateCmd);
+	command_list.push_back(pMoveToLeftStepsCmd);
+
+	//	Command MoveToRightSteps
+	MoveToRightStepsClass	*pMoveToRightStepsCmd =
+		new MoveToRightStepsClass("MoveToRightSteps",
+			Tango::DEV_LONG, Tango::DEV_VOID,
+			"",
+			"",
+			Tango::OPERATOR);
+	command_list.push_back(pMoveToRightStepsCmd);
 
 	/*----- PROTECTED REGION ID(TwoChannelAdapterClass::command_factory_after) ENABLED START -----*/
 	
